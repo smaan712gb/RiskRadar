@@ -261,7 +261,7 @@ export default function LandingPage() {
                   'On-premises AI reasoning (DeepSeek V3.2 / Nemotron — data never leaves)',
                   'NemoClaw sandboxed execution (deny-by-default, 4-layer isolation)',
                   'Auto-learning engine (improves from every human review)',
-                  '33 signal types across 7 risk domains',
+                  '40 signal types across 7 risk domains',
                   '20+ pre-built enterprise integrations (SAP, Splunk, Workday, Azure AD)',
                 ].map((f) => (
                   <li key={f} className="flex items-start gap-2.5 text-sm text-gray-700">
@@ -270,6 +270,144 @@ export default function LandingPage() {
                 ))}
               </ul>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SEE IT IN ACTION — EVIDENCE BRIEF ═══ */}
+      <section className="py-28">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-sm font-semibold text-rose-600 uppercase tracking-widest mb-3">See It In Action</p>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">This Is What Your Regulator Will See</h2>
+            <p className="mt-4 text-xl text-gray-500">Not a risk score. A complete, auditable evidence brief with reasoning.</p>
+          </div>
+
+          <div className="bg-gray-950 rounded-3xl p-1 shadow-2xl max-w-4xl mx-auto">
+            <div className="bg-gray-900 rounded-2xl p-8 font-mono text-sm">
+              <div className="flex gap-2 mb-6">
+                <div className="w-3 h-3 rounded-full bg-red-500" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                <div className="w-3 h-3 rounded-full bg-green-500" />
+                <span className="text-gray-500 text-xs ml-2">RISK ALERT #2026-0847 — Evidence Brief</span>
+              </div>
+
+              <div className="space-y-4 text-gray-300">
+                <div className="border-b border-gray-700 pb-3">
+                  <span className="text-red-400 font-bold">COMPOUND RISK SCORE: 91/100</span>
+                  <span className="text-gray-500 ml-4">Subject: EMP-4821 (Finance Dept)</span>
+                </div>
+
+                <div>
+                  <div className="text-blue-400 font-bold mb-2">EVIDENCE CHAIN:</div>
+                  <div className="space-y-2 pl-4 border-l-2 border-blue-800">
+                    <div><span className="text-yellow-500">#1</span> <span className="text-gray-500">[Mar 15]</span> 3 wire transfers {'>'}$50K with manager override <span className="text-gray-600">— Core Banking API, tx_7821-7825</span></div>
+                    <div><span className="text-yellow-500">#2</span> <span className="text-gray-500">[Mar 14-18]</span> Direct supervisor on PTO <span className="text-gray-600">— HRIS Calendar API</span></div>
+                    <div><span className="text-yellow-500">#3</span> <span className="text-gray-500">[Mar 14]</span> Client records accessed at 11:47 PM <span className="text-gray-600">— AD Audit Log</span></div>
+                    <div><span className="text-yellow-500">#4</span> <span className="text-gray-500">[Mar 15]</span> 2 recipient accounts created within 48hrs <span className="text-gray-600">— Core Banking API</span></div>
+                    <div><span className="text-yellow-500">#5</span> <span className="text-gray-500">[Mar 10]</span> Missed mandatory AML training <span className="text-gray-600">— HRIS Training API</span></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-purple-400 font-bold mb-2">AI REASONING (DeepSeek V3.2):</div>
+                  <div className="text-gray-400 italic">&quot;The combination of supervisor absence, after-hours access, new recipient accounts, and override clustering represents a compound risk pattern. Each signal alone is low-severity, but together they match known BSA/AML red flag indicators.&quot;</div>
+                </div>
+
+                <div>
+                  <div className="text-green-400 font-bold mb-2">REGULATORY MAPPING:</div>
+                  <div className="text-gray-400">FinCEN Advisory 2025-A003 (indicators 4, 7, 12) | BSA/AML 31 CFR 1020.320 | OCC Bulletin 2024-15</div>
+                </div>
+
+                <div>
+                  <div className="text-orange-400 font-bold mb-2">RECOMMENDED ACTIONS:</div>
+                  <div className="text-gray-400">[IMMEDIATE] Freeze override privileges | [24h] BSA Officer review | [72h] SAR filing assessment</div>
+                </div>
+
+                <div className="border-t border-gray-700 pt-3 text-gray-600 text-xs">
+                  Confidence: 91% | FP Likelihood: Low | Model: DeepSeek V3.2 | Processing: 4.2s | Full audit trail: /audit/2026/04/alert-0847.json
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="text-center text-sm text-gray-400 mt-6">Every alert produces this level of detail. Every claim links to verifiable source data. Every decision is auditable.</p>
+        </div>
+      </section>
+
+      {/* ═══ AI CAPABILITIES ═══ */}
+      <section className="py-28 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-sm font-semibold text-purple-600 uppercase tracking-widest mb-3">AI Capabilities</p>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Intelligence That Gets Smarter Every Day</h2>
+            <p className="mt-4 text-xl text-gray-500">Not static rules. Self-improving AI that learns from your team&apos;s decisions.</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: 'Auto-Learning Engine',
+                desc: 'Every time an analyst confirms or dismisses an alert, the system learns. Thresholds self-adjust. New patterns are discovered automatically. False positive sources are identified and suppressed.',
+                stats: 'Adaptive thresholds, pattern discovery, model drift detection',
+                gradient: 'from-purple-500 to-pink-500',
+              },
+              {
+                title: 'Predictive Risk Trajectories',
+                desc: 'Instead of point-in-time scores, we project risk forward. "This employee\'s risk is accelerating and will breach the threshold in 2 weeks if the pattern continues." Intervene before the incident.',
+                stats: 'Linear regression, projected breach dates, intervention windows',
+                gradient: 'from-blue-500 to-cyan-500',
+              },
+              {
+                title: 'Digital Twin Baselines',
+                desc: 'We build behavioral archetypes per role — what does a normal loan officer look like? Deviations are scored against the role, not arbitrary thresholds. Dramatically fewer false positives.',
+                stats: 'Per-role baselines, context-aware scoring, zero training data needed',
+                gradient: 'from-green-500 to-emerald-500',
+              },
+            ].map((c) => (
+              <div key={c.title} className="bg-white rounded-2xl border border-gray-200 p-8 hover:shadow-xl transition-all">
+                <div className={`h-1.5 w-20 bg-gradient-to-r ${c.gradient} rounded-full mb-6`} />
+                <h3 className="text-xl font-bold mb-3">{c.title}</h3>
+                <p className="text-sm text-gray-600 mb-4">{c.desc}</p>
+                <p className="text-xs text-gray-400 font-medium">{c.stats}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* 7 Expert Skills */}
+          <div className="mt-20">
+            <h3 className="text-2xl font-bold text-center mb-10">7 Expert-Level AI Skills</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+              {[
+                { name: 'Transaction\nForensics', level: 'CFE + CAMS', color: 'bg-blue-50 border-blue-200' },
+                { name: 'Insider\nThreat', level: 'CERT/CC + ATT&CK', color: 'bg-red-50 border-red-200' },
+                { name: 'Workforce\nAnalytics', level: 'I/O Psych PhD', color: 'bg-green-50 border-green-200' },
+                { name: 'Regulatory\nWatchdog', level: 'CCO + JD/LLM', color: 'bg-orange-50 border-orange-200' },
+                { name: 'Operations\nRisk', level: 'CRO + SRE', color: 'bg-purple-50 border-purple-200' },
+                { name: 'Comms\nIntelligence', level: 'Social Sci PhD', color: 'bg-yellow-50 border-yellow-200' },
+                { name: 'Digital\nForensics', level: 'CCE + CISA', color: 'bg-pink-50 border-pink-200' },
+              ].map((s) => (
+                <div key={s.name} className={`${s.color} border rounded-xl p-4 text-center hover:shadow-md transition`}>
+                  <div className="text-xs font-bold text-gray-900 whitespace-pre-line leading-tight">{s.name}</div>
+                  <div className="text-[10px] text-gray-500 mt-2">{s.level}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Technology Depth */}
+          <div className="mt-20 grid md:grid-cols-4 gap-6">
+            {[
+              { num: '40', label: 'Signal Types', sub: 'Across 7 risk domains' },
+              { num: '19', label: 'Database Models', sub: 'Multi-tenant, TimescaleDB' },
+              { num: '12', label: 'AI Agents', sub: 'Always-on, sandboxed' },
+              { num: '20+', label: 'Integrations', sub: 'SAP, Splunk, Workday, AD...' },
+            ].map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="text-4xl font-black bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">{s.num}</div>
+                <div className="text-sm font-semibold text-gray-900 mt-1">{s.label}</div>
+                <div className="text-xs text-gray-500">{s.sub}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
