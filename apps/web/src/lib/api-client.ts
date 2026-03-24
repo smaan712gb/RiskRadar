@@ -1,6 +1,7 @@
 import type { ApiResponse, ApiError } from '@riskradar/shared';
 
-const API_BASE = process.env['NEXT_PUBLIC_API_URL'] ?? 'http://localhost:3001/api/v1';
+// Uses relative URL — Next.js rewrites proxy /api/v1/* to the backend
+const API_BASE = process.env['NEXT_PUBLIC_API_URL'] ?? '/api/v1';
 
 class ApiClient {
   private token: string | null = null;
