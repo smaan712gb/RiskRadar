@@ -1,6 +1,6 @@
 import { Queue, type QueueOptions } from 'bullmq';
-import { getBullMQConnection } from './connection.js';
-import { QueueNames, type QueueName } from './types.js';
+import { getBullMQConnection } from './connection';
+import { QueueNames, type QueueName } from './types';
 
 const queueInstances = new Map<QueueName, Queue>();
 

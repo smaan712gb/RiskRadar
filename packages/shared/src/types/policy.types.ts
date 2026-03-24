@@ -1,4 +1,4 @@
-import type { RiskDomainType } from '../constants/risk-domains.js';
+import type { RiskDomainType } from '../constants/risk-domains';
 
 export interface Policy {
   id: string;

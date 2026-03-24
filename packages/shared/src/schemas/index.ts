@@ -7,7 +7,7 @@ export {
   type CursorPaginationInput,
   type SortInput,
   type DateRangeInput,
-} from './pagination.schema.js';
+} from './pagination.schema';
 
 export {
   alertSeveritySchema,
@@ -24,7 +24,7 @@ export {
   type CreateAlertSchema,
   type UpdateAlertStatusSchema,
   type AlertQuerySchema,
-} from './alert.schema.js';
+} from './alert.schema';
 
 export {
   signalIngestionSchema,
@@ -33,7 +33,7 @@ export {
   type SignalIngestionSchema,
   type SignalBatchIngestionSchema,
   type SignalQuerySchema,
-} from './signal.schema.js';
+} from './signal.schema';
 
 export {
   casePrioritySchema,
@@ -44,7 +44,7 @@ export {
   type CreateCaseSchema,
   type UpdateCaseSchema,
   type CaseCommentSchema,
-} from './case.schema.js';
+} from './case.schema';
 
 export {
   policyTypeSchema,
@@ -52,4 +52,4 @@ export {
   naturalLanguagePolicySchema,
   type CreatePolicySchema,
   type NaturalLanguagePolicySchema,
-} from './policy.schema.js';
+} from './policy.schema';

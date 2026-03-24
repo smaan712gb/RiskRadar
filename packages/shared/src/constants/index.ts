@@ -3,14 +3,14 @@ export {
   AlertSeverityOrder,
   SeverityEscalationTargets,
   type AlertSeverityType,
-} from './alert-severity.js';
+} from './alert-severity';
 
 export {
   AlertStatus,
   AlertStatusTransitions,
   isValidTransition,
   type AlertStatusType,
-} from './alert-status.js';
+} from './alert-status';
 
 export {
   CaseStatus,
@@ -18,7 +18,7 @@ export {
   CaseSLAHours,
   type CaseStatusType,
   type CasePriorityType,
-} from './case-status.js';
+} from './case-status';
 
 export {
   RiskDomain,
@@ -27,7 +27,7 @@ export {
   SignalToDomain,
   type RiskDomainType,
   type SignalType,
-} from './risk-domains.js';
+} from './risk-domains';
 
 export {
   SystemRoles,
@@ -35,4 +35,4 @@ export {
   RolePermissions,
   type SystemRole,
   type Permission,
-} from './roles.js';
+} from './roles';

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { riskDomainSchema, subjectTypeSchema } from './alert.schema.js';
+import { riskDomainSchema, subjectTypeSchema } from './alert.schema';
 
 export const signalIngestionSchema = z.object({
   domain: riskDomainSchema,

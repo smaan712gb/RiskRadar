@@ -8,7 +8,7 @@ export type {
   CursorPaginationParams,
   SortParams,
   DateRangeParams,
-} from './api.types.js';
+} from './api.types';
 
 export type {
   Alert,
@@ -22,20 +22,20 @@ export type {
   ReasoningTier,
   CreateAlertInput,
   UpdateAlertStatusInput,
-} from './alert.types.js';
+} from './alert.types';
 
 export type {
   Case,
   CaseComment,
   CreateCaseInput,
   UpdateCaseInput,
-} from './case.types.js';
+} from './case.types';
 
 export type {
   Evidence,
   EvidenceType,
   CreateEvidenceInput,
-} from './evidence.types.js';
+} from './evidence.types';
 
 export type {
   Signal,
@@ -44,7 +44,7 @@ export type {
   SignalQueryParams,
   SignalStats,
   NormalizedSignalEvent,
-} from './signal.types.js';
+} from './signal.types';
 
 export type {
   RiskScore,
@@ -53,7 +53,7 @@ export type {
   TrendDataPoint,
   RiskScoreHistory,
   RiskScoreCalculationInput,
-} from './risk-score.types.js';
+} from './risk-score.types';
 
 export type {
   Policy,
@@ -65,7 +65,7 @@ export type {
   CreatePolicyInput,
   NaturalLanguagePolicyInput,
   ParsedPolicyResult,
-} from './policy.types.js';
+} from './policy.types';
 
 export type {
   User,
@@ -74,15 +74,15 @@ export type {
   LoginInput,
   AuthTokens,
   JwtPayload,
-} from './user.types.js';
+} from './user.types';
 
 export type {
   Tenant,
   Industry,
   TenantSettings,
   CreateTenantInput,
-} from './tenant.types.js';
-export { defaultTenantSettings } from './tenant.types.js';
+} from './tenant.types';
+export { defaultTenantSettings } from './tenant.types';
 
 export type {
   Integration,
@@ -91,7 +91,7 @@ export type {
   IntegrationStatus,
   IntegrationConfig,
   CreateIntegrationInput,
-} from './integration.types.js';
+} from './integration.types';
 
 export type {
   AuditLog,
@@ -99,4 +99,4 @@ export type {
   AuditDetails,
   AuditLogQueryParams,
   AuditAction,
-} from './audit-log.types.js';
+} from './audit-log.types';

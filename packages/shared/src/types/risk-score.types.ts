@@ -1,5 +1,5 @@
-import type { RiskDomainType } from '../constants/risk-domains.js';
-import type { SubjectType } from './alert.types.js';
+import type { RiskDomainType } from '../constants/risk-domains';
+import type { SubjectType } from './alert.types';
 
 export interface RiskScore {
   id: string;

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { riskDomainSchema } from './alert.schema.js';
+import { riskDomainSchema } from './alert.schema';
 
 export const policyTypeSchema = z.enum([
   'monitoring_rule',

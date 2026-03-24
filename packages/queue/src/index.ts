@@ -1,5 +1,5 @@
-export { getRedisConnection, getBullMQConnection, closeRedisConnection } from './connection.js';
-export { getQueue, closeAllQueues, QueueNames } from './queues.js';
+export { getRedisConnection, getBullMQConnection, closeRedisConnection } from './connection';
+export { getQueue, closeAllQueues, QueueNames } from './queues';
 export {
   type QueueName,
   type SignalIngestionJob,
@@ -9,4 +9,4 @@ export {
   type IntegrationSyncJob,
   type ModelInferenceJob,
   type AutoLearningJob,
-} from './types.js';
+} from './types';

@@ -1,5 +1,5 @@
-import type { CasePriorityType, CaseStatusType } from '../constants/case-status.js';
-import type { SubjectType } from './alert.types.js';
+import type { CasePriorityType, CaseStatusType } from '../constants/case-status';
+import type { SubjectType } from './alert.types';
 
 export interface Case {
   id: string;

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { subjectTypeSchema } from './alert.schema.js';
+import { subjectTypeSchema } from './alert.schema';
 
 export const casePrioritySchema = z.enum(['critical', 'high', 'medium', 'low']);
 export const caseStatusSchema = z.enum([

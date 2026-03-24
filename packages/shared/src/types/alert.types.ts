@@ -1,6 +1,6 @@
-import type { AlertSeverityType } from '../constants/alert-severity.js';
-import type { AlertStatusType } from '../constants/alert-status.js';
-import type { RiskDomainType } from '../constants/risk-domains.js';
+import type { AlertSeverityType } from '../constants/alert-severity';
+import type { AlertStatusType } from '../constants/alert-status';
+import type { RiskDomainType } from '../constants/risk-domains';
 
 export interface Alert {
   id: string;
