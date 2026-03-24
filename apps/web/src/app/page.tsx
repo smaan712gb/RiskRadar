@@ -432,14 +432,14 @@ export default function LandingPage() {
               <div className="space-y-2 text-sm">
                 <div><a href="https://github.com/smaan712gb/RiskRadar" className="hover:text-white transition">GitHub</a></div>
                 <div><Link href="/overview" className="hover:text-white transition">Dashboard</Link></div>
-                <div>API Docs</div><div>Blog</div>
+                <div><a href="/api/v1/docs" class="hover:text-white transition">API Docs</a></div><div><a href="/about" class="hover:text-white transition">About</a></div>
               </div>
             </div>
             <div>
               <h3 className="text-white font-semibold mb-4 text-sm">Company</h3>
               <div className="space-y-2 text-sm">
                 <div><a href="https://aigovhub.io" className="hover:text-white transition">AIGovHub</a></div>
-                <div>Contact</div><div>Terms</div><div>Privacy</div>
+                <div><a href="/contact" class="hover:text-white transition">Contact</a></div><div><a href="/terms" class="hover:text-white transition">Terms</a></div><div><a href="/privacy" class="hover:text-white transition">Privacy</a></div>
               </div>
             </div>
           </div>
