@@ -177,16 +177,16 @@ export default function LandingPage() {
           <div className="text-center mb-16">
             <p className="text-sm font-semibold text-blue-600 uppercase tracking-widest mb-3">Solutions</p>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight">Four Products. One Platform.</h2>
-            <p className="mt-4 text-xl text-gray-500">Replace $500K+ enterprise tools with one AI-native platform.</p>
+            <p className="mt-4 text-xl text-gray-500">Enterprise-grade risk intelligence. One platform. Radically simpler pricing.</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* AML — Lead Product */}
             <div className="bg-gradient-to-br from-blue-50 to-violet-50 rounded-2xl border-2 border-blue-200 p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
-              <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-semibold">Replaces NICE Actimize ($500K+)</div>
+              <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-semibold">Enterprise-grade AML at a fraction of the cost</div>
               <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-violet-600 rounded-2xl flex items-center justify-center text-2xl text-white shadow-lg mb-6">{'\u{1F3E6}'}</div>
               <h3 className="text-xl font-bold mb-1">AML & Financial Crime</h3>
-              <p className="text-sm text-gray-500 mb-6">Complete BSA/AML monitoring with automated SAR generation — at 1/200th the cost of NICE Actimize</p>
+              <p className="text-sm text-gray-500 mb-6">Complete BSA/AML monitoring with automated SAR generation — at a fraction of traditional enterprise pricing</p>
               <ul className="space-y-3">
                 {[
                   'Auto SAR/STR draft generation (FinCEN format)',
@@ -196,7 +196,7 @@ export default function LandingPage() {
                   'New payee + large transfer correlation',
                   'BSA/AML regulatory knowledge engine (31 CFR 1020.320)',
                   '30-day SAR filing deadline tracking',
-                  'Saves $200-500 per SAR filing ($500K+/year for mid-size banks)',
+                  'Dramatically reduces SAR filing time and cost',
                 ].map((f) => (
                   <li key={f} className="flex items-start gap-2.5 text-sm text-gray-700">
                     <span className="text-green-500 mt-0.5 font-bold">{'\u2713'}</span>{f}
@@ -207,7 +207,7 @@ export default function LandingPage() {
 
             {/* Insider Threat */}
             <div className="bg-red-50 rounded-2xl border border-red-100 p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
-              <div className="absolute top-4 right-4 bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold">Replaces DTEX ($150K+) &amp; Darktrace</div>
+              <div className="absolute top-4 right-4 bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold">Replaces legacy insider threat tools</div>
               <div className="w-14 h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl flex items-center justify-center text-2xl text-white shadow-lg mb-6">{'\u{1F6E1}'}</div>
               <h3 className="text-xl font-bold mb-1">Insider Threat Detection</h3>
               <p className="text-sm text-gray-500 mb-6">Cross-domain behavioral analysis that catches compound threats no single-domain tool can see</p>
@@ -229,7 +229,7 @@ export default function LandingPage() {
 
             {/* Compliance & Investigation */}
             <div className="bg-green-50 rounded-2xl border border-green-100 p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
-              <div className="absolute top-4 right-4 bg-green-600 text-white text-xs px-3 py-1 rounded-full font-semibold">Replaces LogicGate ($250K+) &amp; Archer</div>
+              <div className="absolute top-4 right-4 bg-green-600 text-white text-xs px-3 py-1 rounded-full font-semibold">Replaces traditional GRC platforms</div>
               <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center text-2xl text-white shadow-lg mb-6">{'\u{1F4CB}'}</div>
               <h3 className="text-xl font-bold mb-1">Compliance & Investigation</h3>
               <p className="text-sm text-gray-500 mb-6">Regulator-ready evidence briefs, case management, and audit trails — not just risk registers</p>
@@ -425,7 +425,7 @@ export default function LandingPage() {
             {[
               { num: '01', title: 'Deploy', desc: 'One-command Docker install on your infrastructure. Or use our managed cloud. Self-hosted is free forever.', color: 'text-blue-600' },
               { num: '02', title: 'Connect', desc: 'Pre-built connectors for SAP, Splunk, Workday, Azure AD, Slack, Jira, and 20+ enterprise systems.', color: 'text-violet-600' },
-              { num: '03', title: 'Monitor', desc: '12 AI agents with PhD-level expertise start analyzing signals immediately. No training period needed.', color: 'text-purple-600' },
+              { num: '03', title: 'Monitor', desc: '12 specialized AI agents start analyzing signals immediately. No training period needed.', color: 'text-purple-600' },
               { num: '04', title: 'Act', desc: 'Review evidence briefs, escalate to cases, auto-generate SARs. Human-in-the-loop at every decision.', color: 'text-rose-600' },
             ].map((s, i) => (
               <div key={s.num} className="relative p-8 text-center group">
@@ -454,7 +454,7 @@ export default function LandingPage() {
               { problem: 'Single-domain blind spots', fix: 'Fuses HR + Finance + Security + Ops + Comms', icon: '\u{1F310}' },
               { problem: 'Black-box AI scores', fix: 'Chain-of-thought evidence briefs with citations', icon: '\u{1F4A1}' },
               { problem: 'Cloud-only (data leaves)', fix: 'On-premises AI via NemoClaw. Zero data egress.', icon: '\u{1F512}' },
-              { problem: '$67K-$500K+ per year', fix: 'Open-source core is free. Enterprise from $2.5K/mo', icon: '\u{1F4B0}' },
+              { problem: 'Legacy enterprise pricing', fix: 'Open-source core is free. Enterprise from $2.5K/mo', icon: '\u{1F4B0}' },
             ].map((d) => (
               <div key={d.problem} className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-blue-500/30 transition-all group">
                 <div className="text-3xl mb-4">{d.icon}</div>
