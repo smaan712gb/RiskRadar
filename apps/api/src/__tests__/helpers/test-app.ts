@@ -67,17 +67,18 @@ export async function buildTestApp(): Promise<FastifyInstance> {
   });
 
   // Global error handler
-  app.setErrorHandler(async (error, request, reply) => {
-    if (error.name === 'NotFoundError' || error.message?.includes('not found')) {
-      return reply.status(404).send({ success: false, error: { code: 'NOT_FOUND', message: error.message } });
+  app.setErrorHandler(async (err: Error, request, reply) => {
+    const msg = err.message ?? 'Unknown error';
+    if (err.name === 'NotFoundError' || msg.includes('not found')) {
+      return reply.status(404).send({ success: false, error: { code: 'NOT_FOUND', message: msg } });
     }
-    if (error.name === 'ZodError' || error.message?.includes('validation')) {
-      return reply.status(400).send({ success: false, error: { code: 'VALIDATION_ERROR', message: error.message } });
+    if (err.name === 'ZodError' || msg.includes('validation')) {
+      return reply.status(400).send({ success: false, error: { code: 'VALIDATION_ERROR', message: msg } });
     }
-    if (error.name === 'InvalidStateTransitionError') {
-      return reply.status(422).send({ success: false, error: { code: 'INVALID_STATE_TRANSITION', message: error.message } });
+    if (err.name === 'InvalidStateTransitionError') {
+      return reply.status(422).send({ success: false, error: { code: 'INVALID_STATE_TRANSITION', message: msg } });
     }
-    return reply.status(500).send({ success: false, error: { code: 'INTERNAL_ERROR', message: error.message } });
+    return reply.status(500).send({ success: false, error: { code: 'INTERNAL_ERROR', message: msg } });
   });
 
   // Health endpoint
