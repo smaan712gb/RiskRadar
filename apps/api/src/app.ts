@@ -114,15 +114,30 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(authRoutes, { prefix: '/api/v1' });
   await app.register(billingRoutes, { prefix: '/api/v1' });
 
-  // Protected routes
-  await app.register(alertRoutes, { prefix: '/api/v1' });
-  await app.register(caseRoutes, { prefix: '/api/v1' });
-  await app.register(signalRoutes, { prefix: '/api/v1' });
-  await app.register(riskScoreRoutes, { prefix: '/api/v1' });
-  await app.register(policyRoutes, { prefix: '/api/v1' });
-  await app.register(integrationRoutes, { prefix: '/api/v1' });
-  await app.register(userRoutes, { prefix: '/api/v1' });
-  await app.register(auditLogRoutes, { prefix: '/api/v1' });
+  // Protected routes — JWT verification applied
+  await app.register(async (protectedApp) => {
+    // Verify JWT on all routes in this scope
+    protectedApp.addHook('preHandler', async (request, reply) => {
+      try {
+        const decoded = await request.jwtVerify();
+        (request as any).user = decoded;
+      } catch {
+        reply.status(401).send({
+          success: false,
+          error: { code: 'UNAUTHORIZED', message: 'Invalid or expired token' },
+        });
+      }
+    });
+
+    await protectedApp.register(alertRoutes);
+    await protectedApp.register(caseRoutes);
+    await protectedApp.register(signalRoutes);
+    await protectedApp.register(riskScoreRoutes);
+    await protectedApp.register(policyRoutes);
+    await protectedApp.register(integrationRoutes);
+    await protectedApp.register(userRoutes);
+    await protectedApp.register(auditLogRoutes);
+  }, { prefix: '/api/v1' });
 
   return app;
 }
