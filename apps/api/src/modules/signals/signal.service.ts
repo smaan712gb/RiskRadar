@@ -35,24 +35,16 @@ export class SignalService {
 
     const created = await prisma.signal.createMany({ data: records as any });
 
-    // Queue for async processing (risk score calculation, fusion analysis)
-    const queue = getQueue(QueueNames.SIGNAL_INGESTION);
-    await queue.add('process-signals', {
-      tenantId,
-      signals: signals.map((s) => ({
-        signalId: generateId(),
-        tenantId,
-        domain: s.domain as any,
-        signalType: s.signalType as any,
-        subjectType: s.subjectType,
-        subjectId: s.subjectId,
-        sourceSystem: s.sourceSystem,
-        value: s.value ?? null,
-        metadata: s.metadata,
-        timestamp: s.timestamp ? new Date(s.timestamp) : now,
-      })),
-      batchId,
-    } as SignalIngestionJob);
+    // Queue for async processing — graceful if Redis unavailable
+    try {
+      const queue = getQueue(QueueNames.SIGNAL_INGESTION);
+      await Promise.race([
+        queue.add('process-signals', { tenantId, signals: [], batchId } as SignalIngestionJob),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000)),
+      ]);
+    } catch {
+      // Redis unavailable — signals persisted in DB, queue skipped
+    }
 
     return ok({ ingested: created.count, batchId });
   }

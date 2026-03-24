@@ -29,7 +29,7 @@ t "API version" "0.1.0" "$(curl -sf $API/health)"
 echo ""
 echo "--- 2. AUTH ---"
 LOGIN=$(curl -sf -X POST $API/auth/login -H "Content-Type: application/json" \
-  -d '{"tenantSlug":"demo-bank","email":"smaan2011@gmail.com","password":"GG7124me$"}')
+  -d '{"tenantSlug":"demo-bank","email":"smaan2011@gmail.com","password":"Pakistan2026"}')
 t "Login valid creds" "success" "$LOGIN"
 TOKEN=$(echo "$LOGIN" | sed 's/.*"accessToken":"\([^"]*\)".*/\1/')
 t "JWT returned" "eyJ" "$TOKEN"
@@ -43,7 +43,7 @@ BAD2=$(curl -sf -X POST $API/auth/login -H "Content-Type: application/json" \
 t "Bad tenant rejected" "Invalid" "$BAD2"
 
 LOGIN2=$(curl -sf -X POST $API/auth/login -H "Content-Type: application/json" \
-  -d '{"tenantSlug":"demo-bank","email":"smaan@aimadds.com","password":"GG7124me$"}')
+  -d '{"tenantSlug":"demo-bank","email":"smaan@aimadds.com","password":"Pakistan2026"}')
 t "Second admin login" "success" "$LOGIN2"
 
 AUTH="Authorization: Bearer $TOKEN"
