@@ -110,7 +110,14 @@ export async function buildApp(): Promise<FastifyInstance> {
   const { integrationRoutes } = await import('./modules/integrations/integration.routes.js');
   const { userRoutes } = await import('./modules/users/user.routes.js');
   const { auditLogRoutes } = await import('./modules/audit-logs/audit-log.routes.js');
+  const { authRoutes } = await import('./modules/auth/auth.routes.js');
+  const { billingRoutes } = await import('./modules/billing/billing.routes.js');
 
+  // Public routes (no auth required)
+  await app.register(authRoutes, { prefix: '/api/v1' });
+  await app.register(billingRoutes, { prefix: '/api/v1' });
+
+  // Protected routes
   await app.register(alertRoutes, { prefix: '/api/v1' });
   await app.register(caseRoutes, { prefix: '/api/v1' });
   await app.register(signalRoutes, { prefix: '/api/v1' });

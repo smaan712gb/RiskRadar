@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-
-export default function Home() {
-  redirect('/overview');
-}
+// Root page renders the marketing landing page
+// Dashboard is at /overview (requires auth)
+export { default } from './(marketing)/page';
