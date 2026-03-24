@@ -109,6 +109,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   const { auditLogRoutes } = await import('./modules/audit-logs/audit-log.routes.js');
   const { authRoutes } = await import('./modules/auth/auth.routes.js');
   const { billingRoutes } = await import('./modules/billing/billing.routes.js');
+  const { regulatoryPipelineRoutes } = await import('./modules/policies/regulatory-pipeline.routes.js');
 
   // JWT auth hook — applies to all /api/v1 routes EXCEPT public ones
   const publicPaths = ['/api/v1/auth/', '/api/v1/billing/webhook', '/api/v1/health', '/api/v1/ready'];
@@ -139,6 +140,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(alertRoutes, { prefix: '/api/v1' });
   await app.register(caseRoutes, { prefix: '/api/v1' });
   await app.register(signalRoutes, { prefix: '/api/v1' });
+  await app.register(regulatoryPipelineRoutes, { prefix: '/api/v1' });
   await app.register(riskScoreRoutes, { prefix: '/api/v1' });
   await app.register(policyRoutes, { prefix: '/api/v1' });
   await app.register(integrationRoutes, { prefix: '/api/v1' });
