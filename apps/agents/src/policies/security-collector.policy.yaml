@@ -1,0 +1,71 @@
+# NemoClaw Sandbox Policy: Security Collector Agent
+
+agent:
+  id: security-collector
+  name: Security Collector
+  team: collection
+  domain: security
+
+security:
+  sandbox:
+    user: riskradar-security
+    cpu_limit: 2
+    memory_limit: 4GB
+    max_runtime: 48h
+
+network_policy:
+  default: deny
+  allow:
+    - host: nemotron-inference.local:8080
+      protocol: https
+      purpose: "Local LLM inference"
+    - host: api.riskradar.local:3001
+      protocol: https
+      purpose: "Signal ingestion"
+    - host: redis.riskradar.local:6379
+      protocol: tcp
+      purpose: "Agent messaging"
+    - host: splunk.internal:8089
+      protocol: https
+      purpose: "SIEM events and security alerts"
+      rate_limit: 200/minute
+    - host: qradar.internal:443
+      protocol: https
+      purpose: "QRadar offense data"
+      rate_limit: 100/minute
+    - host: sentinel.azure.internal:443
+      protocol: https
+      purpose: "Microsoft Sentinel incidents"
+      rate_limit: 100/minute
+    - host: crowdstrike.internal:443
+      protocol: https
+      purpose: "Endpoint detection events"
+      rate_limit: 100/minute
+    - host: azuread.internal:443
+      protocol: https
+      purpose: "Azure AD sign-in and audit logs"
+      rate_limit: 50/minute
+    - host: okta.internal:443
+      protocol: https
+      purpose: "Authentication events"
+      rate_limit: 50/minute
+
+file_policy:
+  read:
+    - /data/security/exports/**
+    - /config/security-collector.yaml
+    - /skills/security/**/*
+  write:
+    - /data/alerts/security/**
+    - /data/signals/security/**
+    - /logs/security-collector/**
+  deny:
+    - /data/hr/**
+    - /data/finance/**
+    - /data/communications/**
+
+audit:
+  log_all_network: true
+  log_all_file_access: true
+  log_all_model_inference: true
+  retention_days: 365

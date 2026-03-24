@@ -1,0 +1,75 @@
+# NemoClaw Sandbox Policy: Finance Collector Agent
+# Deny-by-default. Only whitelisted endpoints accessible.
+
+agent:
+  id: finance-collector
+  name: Finance Collector
+  team: collection
+  domain: finance
+
+security:
+  sandbox:
+    user: riskradar-finance
+    cpu_limit: 2
+    memory_limit: 4GB
+    max_runtime: 48h
+
+network_policy:
+  default: deny
+  allow:
+    # Local inference engine
+    - host: nemotron-inference.local:8080
+      protocol: https
+      purpose: "Local LLM inference (Nemotron-3-Super)"
+
+    # RiskRadar API
+    - host: api.riskradar.local:3001
+      protocol: https
+      purpose: "Signal ingestion and alert creation"
+
+    # Redis (agent messaging)
+    - host: redis.riskradar.local:6379
+      protocol: tcp
+      purpose: "Agent-to-agent message bus"
+
+    # Core Banking API (customer data source)
+    - host: corebanking.internal:443
+      protocol: https
+      purpose: "Transaction override audit log API"
+      rate_limit: 100/minute
+
+    # ERP System (SAP/Oracle)
+    - host: erp.internal:8443
+      protocol: https
+      purpose: "Expense reports, purchase orders, invoice approvals"
+      rate_limit: 50/minute
+
+    # Payroll System
+    - host: payroll.internal:443
+      protocol: https
+      purpose: "Payroll register, direct deposit changes"
+      rate_limit: 20/minute
+
+file_policy:
+  read:
+    - /data/finance/exports/**/*.csv
+    - /data/finance/exports/**/*.json
+    - /config/finance-collector.yaml
+    - /skills/finance/**/*
+  write:
+    - /data/alerts/finance/**
+    - /data/signals/finance/**
+    - /logs/finance-collector/**
+  deny:
+    - /data/hr/**
+    - /data/security/**
+    - /data/communications/**
+    - /config/nemoclaw/**
+    - /etc/**
+    - /usr/**
+
+audit:
+  log_all_network: true
+  log_all_file_access: true
+  log_all_model_inference: true
+  retention_days: 365

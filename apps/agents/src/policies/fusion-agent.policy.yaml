@@ -1,0 +1,52 @@
+# NemoClaw Sandbox Policy: Fusion Agent
+# The fusion agent has READ access to all domain signals for cross-correlation
+
+agent:
+  id: fusion-agent
+  name: Cross-Domain Fusion
+  team: analysis
+  domain: all
+
+security:
+  sandbox:
+    user: riskradar-fusion
+    cpu_limit: 4
+    memory_limit: 8GB
+    max_runtime: 48h
+
+network_policy:
+  default: deny
+  allow:
+    - host: nemotron-inference.local:8080
+      protocol: https
+      purpose: "Local LLM inference (Super for correlation, Cascade-2 for deep reasoning)"
+    - host: api.riskradar.local:3001
+      protocol: https
+      purpose: "Signal queries, alert creation, evidence storage"
+    - host: redis.riskradar.local:6379
+      protocol: tcp
+      purpose: "Agent messaging and signal pub/sub"
+    - host: postgres.riskradar.local:5432
+      protocol: tcp
+      purpose: "Direct DB access for complex signal queries (TimescaleDB)"
+
+file_policy:
+  read:
+    - /data/signals/**  # Read ALL domain signals
+    - /data/alerts/**
+    - /data/digital-twins/**
+    - /config/fusion-agent.yaml
+    - /skills/**/*  # Access all skills for cross-domain reasoning
+  write:
+    - /data/alerts/compound/**
+    - /data/fusion/analysis/**
+    - /logs/fusion-agent/**
+  deny:
+    - /data/hr/pii/**  # No PII access even for fusion
+    - /config/nemoclaw/**
+
+audit:
+  log_all_network: true
+  log_all_file_access: true
+  log_all_model_inference: true
+  retention_days: 365

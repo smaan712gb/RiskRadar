@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+.next/
+out/
+build/
+
+# Turbo
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+coverage/
+test-results/
+playwright-report/
+
+# Prisma
+packages/database/prisma/migrations/**/migration_lock.toml
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Docker volumes
+infrastructure/docker/postgres/data/
+infrastructure/docker/redis/data/
+
+# Secrets (never commit)
+*.pem
+*.key
+credentials.json
+service-account.json
