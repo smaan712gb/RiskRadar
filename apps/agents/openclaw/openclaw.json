@@ -1,0 +1,110 @@
+{
+  "$schema": "https://docs.openclaw.ai/schema/config.json",
+  "name": "RisksRadarAI",
+  "version": "0.1.0",
+
+  "model": {
+    "default": "deepseek-chat",
+    "reasoning": "deepseek-reasoner",
+    "provider": "deepseek",
+    "endpoint": "https://api.deepseek.com/v1",
+    "temperature": 0.1,
+    "maxTokens": 4096
+  },
+
+  "gateway": {
+    "port": 18789,
+    "host": "127.0.0.1",
+    "sessionTimeout": "48h"
+  },
+
+  "tools": {
+    "allow": [
+      "group:fs:read",
+      "web_search",
+      "web_fetch",
+      "database_query",
+      "api_fetch",
+      "signal_normalize",
+      "evidence_compile"
+    ],
+    "deny": [
+      "exec",
+      "group:fs:write",
+      "browser"
+    ]
+  },
+
+  "mcp": {
+    "servers": {
+      "splunk": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-splunk"],
+        "env": {
+          "SPLUNK_URL": "${SPLUNK_URL}",
+          "SPLUNK_TOKEN": "${SPLUNK_TOKEN}"
+        }
+      },
+      "github": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-github"],
+        "env": {
+          "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+        }
+      },
+      "slack": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-slack"],
+        "env": {
+          "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}"
+        }
+      },
+      "jira": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-jira"],
+        "env": {
+          "JIRA_URL": "${JIRA_URL}",
+          "JIRA_TOKEN": "${JIRA_TOKEN}"
+        }
+      },
+      "postgres": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-postgres"],
+        "env": {
+          "DATABASE_URL": "${DATABASE_URL}"
+        }
+      }
+    }
+  },
+
+  "channels": {
+    "slack": {
+      "enabled": false,
+      "webhookUrl": "${SLACK_WEBHOOK_URL}",
+      "defaultChannel": "#riskradar-alerts"
+    },
+    "teams": {
+      "enabled": false,
+      "webhookUrl": "${TEAMS_WEBHOOK_URL}"
+    },
+    "email": {
+      "enabled": false,
+      "smtp": {
+        "host": "${SMTP_HOST}",
+        "port": "${SMTP_PORT}",
+        "user": "${SMTP_USER}",
+        "pass": "${SMTP_PASS}"
+      }
+    }
+  },
+
+  "skills": {
+    "directory": "./skills",
+    "autoload": true
+  },
+
+  "memory": {
+    "enabled": true,
+    "persistence": "local"
+  }
+}

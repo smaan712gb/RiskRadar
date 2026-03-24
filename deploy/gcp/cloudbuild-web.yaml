@@ -4,14 +4,14 @@ steps:
       - 'build'
       - '--no-cache'
       - '-t'
-      - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-web:v10'
+      - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-web:v11'
       - '-t'
       - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-web:latest'
       - '-f'
       - 'deploy/docker/Dockerfile.web'
       - '.'
 images:
-  - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-web:v10'
+  - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-web:v11'
   - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-web:latest'
 timeout: '1200s'
 options:

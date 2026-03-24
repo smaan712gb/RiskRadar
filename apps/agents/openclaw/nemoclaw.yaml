@@ -1,0 +1,155 @@
+# NemoClaw Configuration for RisksRadarAI
+# Enterprise-grade security wrapper for OpenClaw agents
+#
+# Install: nemoclaw onboard --config nemoclaw.yaml
+# Requires: NVIDIA GPU (RTX 4090+) for local inference, Linux (Ubuntu 22.04+)
+
+runtime:
+  name: risksradarai
+  version: 0.1.0
+  openclaw_version: ">=2026.3.22"
+
+# OpenShell sandbox configuration
+sandbox:
+  enabled: true
+  isolation:
+    landlock: true          # Linux Security Module filesystem restrictions
+    seccomp: true           # System call filtering
+    filesystem_ns: true     # Filesystem namespace isolation per agent
+    network_ns: true        # Network namespace isolation per agent
+
+  defaults:
+    cpu_limit: 2
+    memory_limit: "4GB"
+    max_runtime: "48h"
+    sandbox_user: "riskradar-agent"
+
+# Network policy — deny by default
+network:
+  default: deny
+
+  # Global allowlist (all agents can reach these)
+  global_allow:
+    - host: "api.deepseek.com:443"
+      purpose: "DeepSeek V3.2 inference API"
+      protocol: https
+
+    - host: "localhost:3001"
+      purpose: "RisksRadarAI API (signal ingestion, alerts, cases)"
+      protocol: http
+
+    - host: "localhost:6379"
+      purpose: "Redis (agent messaging, job queues)"
+      protocol: tcp
+
+  # Per-agent overrides
+  agent_overrides:
+    finance-collector:
+      allow:
+        - host: "${CORE_BANKING_HOST}"
+          purpose: "Core banking transaction API"
+        - host: "${ERP_HOST}"
+          purpose: "SAP/Oracle ERP API"
+        - host: "${PAYROLL_HOST}"
+          purpose: "Payroll system API"
+
+    security-collector:
+      allow:
+        - host: "${SPLUNK_HOST}"
+          purpose: "Splunk SIEM API"
+        - host: "${AZURE_AD_HOST}"
+          purpose: "Azure AD sign-in logs"
+        - host: "${OKTA_HOST}"
+          purpose: "Okta authentication events"
+
+    hr-collector:
+      allow:
+        - host: "${WORKDAY_HOST}"
+          purpose: "Workday HRIS API"
+
+    operations-collector:
+      allow:
+        - host: "${JIRA_HOST}"
+          purpose: "Jira project tracking"
+        - host: "${GITHUB_HOST}"
+          purpose: "GitHub activity"
+        - host: "${PAGERDUTY_HOST}"
+          purpose: "PagerDuty incidents"
+
+    communications-collector:
+      allow:
+        - host: "${M365_HOST}"
+          purpose: "Microsoft 365 Graph API (metadata only)"
+        - host: "${SLACK_API_HOST}"
+          purpose: "Slack Events API (metadata only)"
+
+    regulatory-watchdog:
+      allow:
+        # External regulatory websites (read-only)
+        - host: "www.fincen.gov:443"
+          purpose: "FinCEN advisories"
+          read_only: true
+        - host: "www.occ.gov:443"
+          purpose: "OCC bulletins"
+          read_only: true
+        - host: "www.fdic.gov:443"
+          purpose: "FDIC Financial Institution Letters"
+          read_only: true
+        - host: "www.sec.gov:443"
+          purpose: "SEC enforcement actions"
+          read_only: true
+        - host: "ofac.treasury.gov:443"
+          purpose: "OFAC sanctions updates"
+          read_only: true
+        - host: "www.consumerfinance.gov:443"
+          purpose: "CFPB rules"
+          read_only: true
+        - host: "www.federalreserve.gov:443"
+          purpose: "Fed supervisory guidance"
+          read_only: true
+        - host: "www.nist.gov:443"
+          purpose: "NIST framework updates"
+          read_only: true
+        # Search APIs for regulatory monitoring
+        - host: "api.exa.ai:443"
+          purpose: "Exa search API"
+        - host: "api.tavily.com:443"
+          purpose: "Tavily search API"
+
+# Local inference models (when GPU available)
+models:
+  primary:
+    name: "nemotron-3-super-120b-a12b"
+    role: "Always-on monitoring, pattern matching, routine analysis"
+    vram: "24GB"
+    context: "1M tokens"
+
+  reasoning:
+    name: "nemotron-cascade-2-30b-a3b"
+    role: "Deep reasoning, evidence brief generation, regulatory analysis"
+    vram: "8GB"
+    context: "32K tokens"
+
+  fallback:
+    provider: "deepseek"
+    model: "deepseek-chat"
+    endpoint: "https://api.deepseek.com/v1"
+    role: "Cloud fallback when local models unavailable"
+
+# Privacy router
+privacy_router:
+  enabled: true
+  mode: "hybrid"  # local | cloud | hybrid
+  pii_stripping: true
+  local_first: true
+  cloud_fallback_for: ["novel_patterns", "multi_language"]
+
+# Audit & logging
+audit:
+  log_all_network: true
+  log_all_file_access: true
+  log_all_model_inference: true
+  log_external_web_access: true
+  retention_days: 2555  # 7 years for BSA/AML
+  immutable: true
+  export_format: "json"
