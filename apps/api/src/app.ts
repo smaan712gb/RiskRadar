@@ -122,8 +122,9 @@ export async function buildApp(): Promise<FastifyInstance> {
     }
 
     try {
-      const decoded = await request.jwtVerify();
-      (request as any).user = decoded;
+      const decoded = await request.jwtVerify() as Record<string, unknown>;
+      // Map JWT 'sub' claim to 'id' for route handlers
+      (request as any).user = { ...decoded, id: decoded['sub'] };
     } catch {
       reply.status(401).send({
         success: false,
