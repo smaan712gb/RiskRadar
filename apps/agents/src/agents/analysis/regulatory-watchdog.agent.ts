@@ -1,6 +1,6 @@
 import { prisma } from '@riskradar/database';
 import type { NormalizedSignalEvent } from '@riskradar/shared';
-import { BaseAgent, type AgentConfig, type AgentContext } from '../base-agent.js';
+import { BaseAgent, type AgentConfig } from '../base-agent.js';
 import type { AgentMessage } from '../../messaging/agent-bus.js';
 
 /**

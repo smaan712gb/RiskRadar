@@ -98,7 +98,7 @@ Output valid JSON matching this schema:
    * Returns warnings if required data sources are not connected.
    */
   async validatePolicy(
-    tenantId: string,
+    _tenantId: string,
     parsed: ParsedPolicy,
   ): Promise<PolicyValidation> {
     const warnings: string[] = [...parsed.warnings];

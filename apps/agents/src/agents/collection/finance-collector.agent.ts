@@ -1,6 +1,6 @@
 import { prisma } from '@riskradar/database';
 import type { NormalizedSignalEvent } from '@riskradar/shared';
-import { BaseAgent, type AgentConfig, type AgentContext } from '../base-agent.js';
+import { BaseAgent, type AgentConfig } from '../base-agent.js';
 import type { AgentMessage } from '../../messaging/agent-bus.js';
 
 /**
@@ -250,7 +250,7 @@ export class FinanceCollectorAgent extends BaseAgent {
           subjectId: signal.subjectId,
           sourceSystem: signal.sourceSystem,
           value: signal.value,
-          metadata: signal.metadata,
+          metadata: signal.metadata as any,
           timestamp: signal.timestamp,
           normalizedAt: new Date(),
         },
@@ -276,7 +276,7 @@ export class FinanceCollectorAgent extends BaseAgent {
 
       if (!isUnusual) continue;
 
-      let signalType = 'unusual_amount';
+      let signalType: any = 'unusual_amount';
       if (Boolean(tx['newPayee'])) signalType = 'new_payee';
       if (Boolean(tx['isOverride'])) signalType = 'override_transaction';
       if (amount > 0 && amount < 10000 && amount > 8500) signalType = 'unusual_amount'; // Potential structuring
@@ -310,7 +310,7 @@ export class FinanceCollectorAgent extends BaseAgent {
           subjectId: signal.subjectId,
           sourceSystem: signal.sourceSystem,
           value: signal.value,
-          metadata: signal.metadata,
+          metadata: signal.metadata as any,
           timestamp: signal.timestamp,
           normalizedAt: new Date(),
         },
@@ -360,7 +360,7 @@ export class FinanceCollectorAgent extends BaseAgent {
           subjectId: signal.subjectId,
           sourceSystem: signal.sourceSystem,
           value: signal.value,
-          metadata: signal.metadata,
+          metadata: signal.metadata as any,
           timestamp: signal.timestamp,
           normalizedAt: new Date(),
         },

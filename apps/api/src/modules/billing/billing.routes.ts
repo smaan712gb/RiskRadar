@@ -22,9 +22,7 @@ export async function billingRoutes(app: FastifyInstance): Promise<void> {
   });
 
   // Stripe webhook (no auth — Stripe signs it)
-  app.post('/billing/webhook', {
-    config: { rawBody: true },
-  }, async (request: FastifyRequest, reply: FastifyReply) => {
+  app.post('/billing/webhook', async (request: FastifyRequest, reply: FastifyReply) => {
     const signature = request.headers['stripe-signature'] as string;
     if (!signature) {
       return reply.status(400).send({ error: 'Missing stripe-signature header' });

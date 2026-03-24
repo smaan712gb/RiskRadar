@@ -1,6 +1,6 @@
 import { prisma } from '@riskradar/database';
 import { SeverityEscalationTargets, type AlertSeverityType } from '@riskradar/shared';
-import type { NormalizedSignalEvent, CreateAlertInput } from '@riskradar/shared';
+import type { NormalizedSignalEvent } from '@riskradar/shared';
 import { BaseAgent, type AgentConfig } from '../base-agent.js';
 import type { AgentMessage } from '../../messaging/agent-bus.js';
 
@@ -170,8 +170,8 @@ export class AlertRouterAgent extends BaseAgent {
     await prisma.alert.update({
       where: { id: alertId },
       data: {
-        evidenceBrief: payload['evidenceBrief'] as Record<string, unknown>,
-        regulatoryMapping: (payload['regulatoryMapping'] ?? []) as Record<string, unknown>[],
+        evidenceBrief: payload["evidenceBrief"] as any,
+        regulatoryMapping: (payload["regulatoryMapping"] ?? []) as any,
       },
     });
 

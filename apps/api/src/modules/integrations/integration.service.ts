@@ -19,7 +19,7 @@ function encrypt(text: string): string {
   return `${iv.toString('hex')}:${tag}:${encrypted}`;
 }
 
-function decrypt(encryptedText: string): string {
+export function decrypt(encryptedText: string): string {
   const [ivHex, tagHex, encrypted] = encryptedText.split(':');
   if (!ivHex || !tagHex || !encrypted) throw new Error('Invalid encrypted format');
   const key = createHash('sha256').update(ENCRYPTION_KEY).digest();
@@ -86,8 +86,8 @@ export class IntegrationService {
         name: input.name,
         integrationType: input.integrationType,
         provider: input.provider,
-        config: input.config,
-        credentials: encryptedCreds,
+        config: input.config as any,
+        credentials: encryptedCreds as any,
         syncSchedule: input.syncSchedule ?? null,
         healthCheckUrl: input.healthCheckUrl ?? null,
         status: 'inactive',

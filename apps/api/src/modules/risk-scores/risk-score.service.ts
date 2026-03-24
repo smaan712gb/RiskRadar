@@ -73,8 +73,6 @@ export class RiskScoreService {
       select: { domain: true, signalType: true, value: true, timestamp: true, sourceSystem: true },
     });
 
-    // Get digital twin comparison if available
-    const signalMeta = recentSignals[0]?.sourceSystem;
     const trendData = history.map((h) => ({
       date: h.calculatedAt.toISOString().split('T')[0]!,
       score: h.overallScore,

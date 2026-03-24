@@ -223,7 +223,7 @@ export class SecurityCollectorAgent extends BaseAgent {
         subjectId: signal.subjectId,
         sourceSystem: signal.sourceSystem,
         value: signal.value,
-        metadata: signal.metadata,
+        metadata: signal.metadata as any,
         timestamp: signal.timestamp,
         normalizedAt: new Date(),
       },

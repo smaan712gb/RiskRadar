@@ -25,7 +25,7 @@ export function getQueue(name: QueueName): Queue {
   let queue = queueInstances.get(name);
   if (!queue) {
     queue = new Queue(name, {
-      connection: getBullMQConnection(),
+      connection: getBullMQConnection() as any,
       ...defaultQueueOptions,
     });
     queueInstances.set(name, queue);

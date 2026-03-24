@@ -1,12 +1,11 @@
 import { prisma } from '@riskradar/database';
-import type { AuditAction, ActorType } from '@riskradar/shared';
-import { getRequestContext } from './request-context.js';
+import type { ActorType } from '@riskradar/shared';
 
 interface AuditEntry {
   tenantId: string;
   actorType: ActorType;
   actorId: string;
-  action: AuditAction;
+  action: string;
   resource: string;
   resourceId: string;
   details: Record<string, unknown>;
@@ -15,8 +14,6 @@ interface AuditEntry {
 }
 
 export async function createAuditLog(entry: AuditEntry): Promise<void> {
-  const context = getRequestContext();
-
   try {
     await prisma.auditLog.create({
       data: {
@@ -26,7 +23,7 @@ export async function createAuditLog(entry: AuditEntry): Promise<void> {
         action: entry.action,
         resource: entry.resource,
         resourceId: entry.resourceId,
-        details: entry.details,
+        details: entry.details as any,
         ipAddress: entry.ipAddress ?? null,
         userAgent: entry.userAgent ?? null,
         timestamp: new Date(),

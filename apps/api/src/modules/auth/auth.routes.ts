@@ -1,11 +1,8 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { prisma } from '@riskradar/database';
 import { RolePermissions, type SystemRole, defaultTenantSettings } from '@riskradar/shared';
-import { UserService } from '../users/user.service.js';
 import { createAuditLog } from '../../middleware/audit-trail.js';
 import { createHash, randomBytes } from 'node:crypto';
-
-const userService = new UserService();
 
 export async function authRoutes(app: FastifyInstance): Promise<void> {
   // Register new tenant + admin user

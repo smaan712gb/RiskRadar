@@ -1,4 +1,3 @@
-import { type ConnectionOptions } from 'bullmq';
 import IORedis from 'ioredis';
 
 let redisInstance: IORedis | null = null;
@@ -18,7 +17,7 @@ export function getRedisConnection(): IORedis {
   return redisInstance;
 }
 
-export function getBullMQConnection(): ConnectionOptions {
+export function getBullMQConnection(): IORedis {
   return getRedisConnection();
 }
 

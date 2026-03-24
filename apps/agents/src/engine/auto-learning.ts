@@ -278,7 +278,7 @@ export class AutoLearningEngine {
           },
         },
         update: {
-          baselineData,
+          baselineData: baselineData as any,
           sampleSize: uniqueSubjects.size,
           confidenceLevel: Math.min(uniqueSubjects.size / 20, 1.0),
           lastCalculated: new Date(),
@@ -288,7 +288,7 @@ export class AutoLearningEngine {
           tenantId,
           roleArchetype: role,
           department: 'all',
-          baselineData,
+          baselineData: baselineData as any,
           sampleSize: uniqueSubjects.size,
           confidenceLevel: Math.min(uniqueSubjects.size / 20, 1.0),
         },
@@ -360,7 +360,7 @@ export class AutoLearningEngine {
   async detectSeasonalPatterns(tenantId: string): Promise<SeasonalAdjustment[]> {
     // Get signal volumes by week for the past 6 months
     const sixMonthsAgo = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000);
-    const signals = await prisma.signal.groupBy({
+    await prisma.signal.groupBy({
       by: ['domain', 'signalType'],
       where: {
         tenantId,
@@ -389,7 +389,7 @@ export class AutoLearningEngine {
         },
       },
       update: {
-        state: adjustment as unknown as Record<string, unknown>,
+        state: adjustment as any,
         lastUpdatedAt: new Date(),
         version: { increment: 1 },
       },
@@ -397,7 +397,7 @@ export class AutoLearningEngine {
         tenantId,
         learningType: 'threshold_adjustment',
         key: adjustment.alertType,
-        state: adjustment as unknown as Record<string, unknown>,
+        state: adjustment as any,
       },
     });
   }

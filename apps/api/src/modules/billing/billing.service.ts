@@ -13,19 +13,22 @@ const STRIPE_PLANS = {
 } as const;
 
 export class BillingService {
-  private stripe: any; // Stripe SDK
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private stripe: any = null;
 
   constructor() {
     const stripeKey = process.env['STRIPE_SECRET_KEY'];
-    if (stripeKey) {
-      // Dynamic import to avoid requiring stripe for self-hosted users
-      import('stripe').then((Stripe) => {
-        this.stripe = new Stripe.default(stripeKey, { apiVersion: '2024-12-18.acacia' as any });
-      }).catch(() => {
-        logger.warn('Stripe SDK not installed. Billing features disabled.');
-      });
-    } else {
+    if (!stripeKey) {
       logger.info('No STRIPE_SECRET_KEY configured. Running in self-hosted mode (billing disabled).');
+    } else {
+      // Lazy load stripe to avoid requiring it for self-hosted users
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const Stripe = require('stripe');
+        this.stripe = new Stripe(stripeKey);
+      } catch {
+        logger.warn('Stripe SDK not installed. Billing features disabled. Run: pnpm add stripe');
+      }
     }
   }
 
@@ -100,15 +103,17 @@ export class BillingService {
         const session = event.data.object;
         const tenantId = session.metadata?.tenantId;
         if (tenantId) {
+          const tenant = await prisma.tenant.findFirst({ where: { id: tenantId } });
+          const existingSettings = (tenant?.settings ?? {}) as Record<string, unknown>;
           await prisma.tenant.update({
             where: { id: tenantId },
             data: {
               settings: {
-                ...(await prisma.tenant.findFirst({ where: { id: tenantId } }).then((t) => (t?.settings as object) ?? {})),
+                ...existingSettings,
                 stripeSubscriptionId: session.subscription,
                 plan: 'professional',
                 trialEndsAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-              },
+              } as any,
             },
           });
           logger.info({ tenantId }, 'Subscription created');
@@ -134,14 +139,16 @@ export class BillingService {
         const subscription = event.data.object;
         const tenantId = subscription.metadata?.tenantId;
         if (tenantId) {
+          const subTenant = await prisma.tenant.findFirst({ where: { id: tenantId } });
+          const subSettings = (subTenant?.settings ?? {}) as Record<string, unknown>;
           await prisma.tenant.update({
             where: { id: tenantId },
             data: {
               settings: {
-                ...(await prisma.tenant.findFirst({ where: { id: tenantId } }).then((t) => (t?.settings as object) ?? {})),
+                ...subSettings,
                 plan: 'community',
                 stripeSubscriptionId: null,
-              },
+              } as any,
             },
           });
           logger.info({ tenantId }, 'Subscription cancelled — downgraded to community');

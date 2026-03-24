@@ -5,14 +5,12 @@ import rateLimit from '@fastify/rate-limit';
 import jwt from '@fastify/jwt';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
-import { createLogger } from '@riskradar/logger';
 import { getConfig } from './config/index.js';
 import { errorHandler } from './middleware/error-handler.js';
 import { registerRequestContext } from './middleware/request-context.js';
 
 export async function buildApp(): Promise<FastifyInstance> {
   const config = getConfig();
-  const logger = createLogger('api');
 
   const app = Fastify({
     logger: {
@@ -22,16 +20,15 @@ export async function buildApp(): Promise<FastifyInstance> {
           ? { target: 'pino-pretty', options: { colorize: true, translateTime: 'SYS:standard' } }
           : undefined,
     },
-    requestId: 'x-request-id',
     genReqId: () => crypto.randomUUID(),
     trustProxy: true,
   });
 
   // Error handler
-  app.setErrorHandler(errorHandler);
+  app.setErrorHandler(errorHandler as any);
 
   // Request context (AsyncLocalStorage)
-  await registerRequestContext(app);
+  await registerRequestContext(app as any);
 
   // Security
   await app.register(helmet, {

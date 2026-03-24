@@ -200,7 +200,7 @@ export class OperationsCollectorAgent extends BaseAgent {
       data: {
         tenantId: signal.tenantId, domain: signal.domain, signalType: signal.signalType,
         subjectType: signal.subjectType, subjectId: signal.subjectId, sourceSystem: signal.sourceSystem,
-        value: signal.value, metadata: signal.metadata, timestamp: signal.timestamp, normalizedAt: new Date(),
+        value: signal.value, metadata: signal.metadata as any, timestamp: signal.timestamp, normalizedAt: new Date(),
       },
     });
 

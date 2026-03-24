@@ -41,10 +41,10 @@ async function start(): Promise<void> {
 
   // Initialize engines
   const fusionEngine = new FusionEngine(modelRouter);
-  const autoLearningEngine = new AutoLearningEngine();
-  const trajectoryEngine = new TrajectoryEngine();
-  const nlPolicyBuilder = new NaturalLanguagePolicyBuilder(modelRouter);
-  const sarGenerator = new SARGenerator(modelRouter);
+  const _autoLearningEngine = new AutoLearningEngine();
+  const _trajectoryEngine = new TrajectoryEngine();
+  const _nlPolicyBuilder = new NaturalLanguagePolicyBuilder(modelRouter);
+  const _sarGenerator = new SARGenerator(modelRouter);
 
   // Start fusion engine
   fusionEngine.start();

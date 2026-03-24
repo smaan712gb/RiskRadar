@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@riskradar/tsconfig": "workspace:*",
+    "@types/node": "^25.5.0",
     "prisma": "^6.3.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"

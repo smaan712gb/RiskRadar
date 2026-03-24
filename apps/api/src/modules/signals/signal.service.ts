@@ -28,12 +28,12 @@ export class SignalService {
       subjectId: s.subjectId,
       sourceSystem: s.sourceSystem,
       value: s.value ?? null,
-      metadata: s.metadata,
+      metadata: s.metadata as any,
       timestamp: s.timestamp ? new Date(s.timestamp) : now,
       normalizedAt: now,
     }));
 
-    const created = await prisma.signal.createMany({ data: records });
+    const created = await prisma.signal.createMany({ data: records as any });
 
     // Queue for async processing (risk score calculation, fusion analysis)
     const queue = getQueue(QueueNames.SIGNAL_INGESTION);
@@ -42,8 +42,8 @@ export class SignalService {
       signals: signals.map((s) => ({
         signalId: generateId(),
         tenantId,
-        domain: s.domain,
-        signalType: s.signalType,
+        domain: s.domain as any,
+        signalType: s.signalType as any,
         subjectType: s.subjectType,
         subjectId: s.subjectId,
         sourceSystem: s.sourceSystem,
@@ -52,7 +52,7 @@ export class SignalService {
         timestamp: s.timestamp ? new Date(s.timestamp) : now,
       })),
       batchId,
-    } satisfies SignalIngestionJob);
+    } as SignalIngestionJob);
 
     return ok({ ingested: created.count, batchId });
   }
