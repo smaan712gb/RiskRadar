@@ -2,11 +2,15 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
+      - '--no-cache'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-api:v2'
       - '-t'
       - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-api:latest'
       - '-f'
       - 'deploy/docker/Dockerfile.api'
       - '.'
 images:
+  - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-api:v2'
   - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-api:latest'
-timeout: '600s'
+timeout: '900s'
