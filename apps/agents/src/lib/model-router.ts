@@ -209,9 +209,11 @@ export class ModelRouter {
     request: ModelInferenceRequest,
     startTime: number,
   ): Promise<ModelInferenceResponse> {
-    // DeepSeek uses OpenAI-compatible API at https://api.deepseek.com
-    // deepseek-chat = fast (non-thinking), deepseek-reasoner = thinking mode
-    const model = request.requireReasoning ? 'deepseek-reasoner' : 'deepseek-chat';
+    // DeepSeek V3.2 — both model IDs are the same underlying model
+    // deepseek-chat = V3.2 non-thinking (fast, cheap: $0.27/M input)
+    // deepseek-reasoner = V3.2 thinking mode (reasoning: $0.55/M input)
+    // Using deepseek-chat for all — V3.2 handles reasoning natively
+    const model = 'deepseek-chat';
     logger.info({ model }, 'Routing to DeepSeek API');
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
