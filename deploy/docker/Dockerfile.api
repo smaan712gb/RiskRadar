@@ -1,28 +1,18 @@
 # RiskRadar API Service — Production Build
-# Uses tsx for direct TypeScript execution (no compile step needed)
 FROM node:20-alpine
 
 RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
+RUN npm install -g tsx
 WORKDIR /app
 
-# Copy entire monorepo
 COPY . .
-
-# Install all dependencies
 RUN pnpm install --frozen-lockfile
-
-# Generate Prisma client
 RUN pnpm --filter @riskradar/database exec prisma generate
 
-# Create non-root user
 RUN addgroup --system riskradar && adduser --system --ingroup riskradar api
+RUN chown -R api:riskradar /app
 
 USER api
 EXPOSE 3001
 ENV NODE_ENV=production
-
-# Install tsx globally for TypeScript execution
-RUN npm install -g tsx
-
-# Run directly with tsx
 CMD ["tsx", "apps/api/src/server.ts"]
