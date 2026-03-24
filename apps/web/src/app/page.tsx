@@ -171,73 +171,105 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ THREE PRODUCTS ═══ */}
+      {/* ═══ FOUR PRODUCTS ═══ */}
       <section id="solutions" className="py-28 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <p className="text-sm font-semibold text-blue-600 uppercase tracking-widest mb-3">Solutions</p>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Three Products. One Platform.</h2>
-            <p className="mt-4 text-xl text-gray-500">Everything you need to detect, investigate, and respond to organizational risk.</p>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Four Products. One Platform.</h2>
+            <p className="mt-4 text-xl text-gray-500">Replace $500K+ enterprise tools with one AI-native platform.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: '\u{1F6E1}', gradient: 'from-red-500 to-orange-500', bg: 'bg-red-50', border: 'border-red-100',
-                title: 'Risk Detection & Fusion',
-                subtitle: 'Cross-domain AI that sees what others miss',
-                features: [
-                  '33 signal types across 7 risk domains',
-                  'Compound risk scoring with chain-of-thought AI',
-                  'Predictive trajectories with projected breach dates',
-                  'Digital twin baselines per role archetype',
-                  'Auto-learning from every human review',
-                  'Benford\'s Law, structuring, override forensics',
-                ],
-              },
-              {
-                icon: '\u{1F4CB}', gradient: 'from-blue-500 to-violet-500', bg: 'bg-blue-50', border: 'border-blue-100',
-                title: 'Investigation & Compliance',
-                subtitle: 'From alert to SAR filing in minutes, not days',
-                features: [
-                  'Evidence briefs with source citations & reasoning',
-                  'Case management with SLA tracking',
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* AML — Lead Product */}
+            <div className="bg-gradient-to-br from-blue-50 to-violet-50 rounded-2xl border-2 border-blue-200 p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
+              <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-semibold">Replaces NICE Actimize ($500K+)</div>
+              <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-violet-600 rounded-2xl flex items-center justify-center text-2xl text-white shadow-lg mb-6">{'\u{1F3E6}'}</div>
+              <h3 className="text-xl font-bold mb-1">AML & Financial Crime</h3>
+              <p className="text-sm text-gray-500 mb-6">Complete BSA/AML monitoring with automated SAR generation — at 1/200th the cost of NICE Actimize</p>
+              <ul className="space-y-3">
+                {[
                   'Auto SAR/STR draft generation (FinCEN format)',
-                  'Regulatory knowledge engine (BSA, SOX, HIPAA, GDPR)',
-                  'Natural language policy builder',
-                  'Immutable audit trail for regulatory exams',
-                ],
-              },
-              {
-                icon: '\u{1F916}', gradient: 'from-violet-500 to-purple-500', bg: 'bg-violet-50', border: 'border-violet-100',
-                title: 'AI Agent Operations',
-                subtitle: '12 specialized agents with PhD-level expertise',
-                features: [
-                  'Always-on regulatory watchdog (12 sources, every 6h)',
-                  'Transaction forensics (CFE/CAMS-level analysis)',
-                  'Insider threat detection (CERT/CC + MITRE ATT&CK)',
-                  'Workforce behavioral analytics (I/O Psychology)',
-                  'NemoClaw sandboxed execution (deny-by-default)',
-                  '20+ pre-built enterprise integrations',
-                ],
-              },
-            ].map((p) => (
-              <div key={p.title} className={`${p.bg} rounded-2xl border ${p.border} p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300`}>
-                <div className={`w-14 h-14 bg-gradient-to-br ${p.gradient} rounded-2xl flex items-center justify-center text-2xl text-white shadow-lg mb-6`}>
-                  {p.icon}
-                </div>
-                <h3 className="text-xl font-bold mb-1">{p.title}</h3>
-                <p className="text-sm text-gray-500 mb-6">{p.subtitle}</p>
-                <ul className="space-y-3">
-                  {p.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm text-gray-700">
-                      <span className="text-green-500 mt-0.5 font-bold">{'\u2713'}</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                  'Transaction override forensics with supervisor absence correlation',
+                  'Structuring/smurfing detection (just-below-threshold patterns)',
+                  'Benford\'s Law analysis on transaction amounts',
+                  'New payee + large transfer correlation',
+                  'BSA/AML regulatory knowledge engine (31 CFR 1020.320)',
+                  '30-day SAR filing deadline tracking',
+                  'Saves $200-500 per SAR filing ($500K+/year for mid-size banks)',
+                ].map((f) => (
+                  <li key={f} className="flex items-start gap-2.5 text-sm text-gray-700">
+                    <span className="text-green-500 mt-0.5 font-bold">{'\u2713'}</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Insider Threat */}
+            <div className="bg-red-50 rounded-2xl border border-red-100 p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
+              <div className="absolute top-4 right-4 bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold">Replaces DTEX ($150K+) &amp; Darktrace</div>
+              <div className="w-14 h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl flex items-center justify-center text-2xl text-white shadow-lg mb-6">{'\u{1F6E1}'}</div>
+              <h3 className="text-xl font-bold mb-1">Insider Threat Detection</h3>
+              <p className="text-sm text-gray-500 mb-6">Cross-domain behavioral analysis that catches compound threats no single-domain tool can see</p>
+              <ul className="space-y-3">
+                {[
+                  'Cross-domain fusion: HR + Finance + Security + Ops + Comms',
+                  'Kill chain staging (CERT/CC + MITRE ATT&CK mapping)',
+                  'Data exfiltration detection with destination analysis',
+                  'After-hours access + financial activity correlation',
+                  'Digital twin baselines per role archetype',
+                  'Predictive risk trajectories with projected breach dates',
+                ].map((f) => (
+                  <li key={f} className="flex items-start gap-2.5 text-sm text-gray-700">
+                    <span className="text-green-500 mt-0.5 font-bold">{'\u2713'}</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Compliance & Investigation */}
+            <div className="bg-green-50 rounded-2xl border border-green-100 p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
+              <div className="absolute top-4 right-4 bg-green-600 text-white text-xs px-3 py-1 rounded-full font-semibold">Replaces LogicGate ($250K+) &amp; Archer</div>
+              <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center text-2xl text-white shadow-lg mb-6">{'\u{1F4CB}'}</div>
+              <h3 className="text-xl font-bold mb-1">Compliance & Investigation</h3>
+              <p className="text-sm text-gray-500 mb-6">Regulator-ready evidence briefs, case management, and audit trails — not just risk registers</p>
+              <ul className="space-y-3">
+                {[
+                  'AI evidence briefs with source citations & chain-of-thought reasoning',
+                  'Case management with SLA tracking and escalation workflows',
+                  'Regulatory knowledge engine (BSA/AML, SOX, HIPAA, GDPR, EU AI Act)',
+                  'Always-on regulatory watchdog (scans 12 sources every 6 hours)',
+                  'Natural language policy builder (describe rules in plain English)',
+                  'Immutable audit trail (7-year retention, DB-enforced, exportable)',
+                ].map((f) => (
+                  <li key={f} className="flex items-start gap-2.5 text-sm text-gray-700">
+                    <span className="text-green-500 mt-0.5 font-bold">{'\u2713'}</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* AI Agent Platform */}
+            <div className="bg-violet-50 rounded-2xl border border-violet-100 p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
+              <div className="absolute top-4 right-4 bg-violet-600 text-white text-xs px-3 py-1 rounded-full font-semibold">No competitor offers this</div>
+              <div className="w-14 h-14 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center text-2xl text-white shadow-lg mb-6">{'\u{1F916}'}</div>
+              <h3 className="text-xl font-bold mb-1">AI Agent Platform</h3>
+              <p className="text-sm text-gray-500 mb-6">12 specialized AI agents running 24/7 with sandboxed execution and on-premises reasoning</p>
+              <ul className="space-y-3">
+                {[
+                  '12 always-on agents across collection, analysis, and response',
+                  'On-premises AI reasoning (DeepSeek V3.2 / Nemotron — data never leaves)',
+                  'NemoClaw sandboxed execution (deny-by-default, 4-layer isolation)',
+                  'Auto-learning engine (improves from every human review)',
+                  '33 signal types across 7 risk domains',
+                  '20+ pre-built enterprise integrations (SAP, Splunk, Workday, Azure AD)',
+                ].map((f) => (
+                  <li key={f} className="flex items-start gap-2.5 text-sm text-gray-700">
+                    <span className="text-green-500 mt-0.5 font-bold">{'\u2713'}</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
