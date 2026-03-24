@@ -34,6 +34,7 @@ export interface ModelConfig {
   // Cloud API keys (for cloud/hybrid modes)
   anthropicApiKey?: string;
   openaiApiKey?: string;
+  deepseekApiKey?: string;
 }
 
 /**
@@ -191,14 +192,68 @@ export class ModelRouter {
     request: ModelInferenceRequest,
     startTime: number,
   ): Promise<ModelInferenceResponse> {
-    // Cloud inference via Anthropic or OpenAI API
+    // Cloud inference — prioritize DeepSeek (cheapest), then Anthropic, then OpenAI
+    if (this.config.deepseekApiKey) {
+      return this.inferCloudDeepSeek(request, startTime);
+    }
     if (this.config.anthropicApiKey) {
       return this.inferCloudAnthropic(request, startTime);
     }
     if (this.config.openaiApiKey) {
       return this.inferCloudOpenAI(request, startTime);
     }
-    throw new Error('No cloud API keys configured. Set ANTHROPIC_API_KEY or OPENAI_API_KEY.');
+    throw new Error('No cloud API keys configured. Set DEEPSEEK_API_KEY, ANTHROPIC_API_KEY, or OPENAI_API_KEY.');
+  }
+
+  private async inferCloudDeepSeek(
+    request: ModelInferenceRequest,
+    startTime: number,
+  ): Promise<ModelInferenceResponse> {
+    // DeepSeek uses OpenAI-compatible API at https://api.deepseek.com
+    // deepseek-chat = fast (non-thinking), deepseek-reasoner = thinking mode
+    const model = request.requireReasoning ? 'deepseek-reasoner' : 'deepseek-chat';
+    logger.info({ model }, 'Routing to DeepSeek API');
+
+    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.config.deepseekApiKey}`,
+      },
+      signal: AbortSignal.timeout(this.config.timeoutMs),
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: request.systemPrompt },
+          { role: 'user', content: request.prompt },
+        ],
+        max_tokens: request.maxTokens ?? 4096,
+        temperature: request.temperature ?? 0.1,
+      }),
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`DeepSeek API error (${response.status}): ${errText}`);
+    }
+
+    const data = (await response.json()) as {
+      choices: Array<{ message: { content: string; reasoning_content?: string } }>;
+      usage: { total_tokens: number };
+    };
+
+    const content = data.choices[0]?.message.content ?? '';
+    const reasoning = data.choices[0]?.message.reasoning_content;
+
+    return {
+      content,
+      reasoning,
+      tier: 'tier3_cloud',
+      modelId: model,
+      tokensUsed: data.usage?.total_tokens ?? 0,
+      latencyMs: Date.now() - startTime,
+      cached: false,
+    };
   }
 
   private async inferCloudAnthropic(

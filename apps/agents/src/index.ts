@@ -24,13 +24,14 @@ async function start(): Promise<void> {
     inferenceMode,
     anthropicApiKey: process.env['ANTHROPIC_API_KEY'],
     openaiApiKey: process.env['OPENAI_API_KEY'],
+    deepseekApiKey: process.env['DEEPSEEK_API_KEY'],
   };
 
   const modelRouter = new ModelRouter(modelConfig);
   logger.info({
     inferenceMode,
     models: inferenceMode === 'cloud'
-      ? ['cloud API (Claude/GPT)']
+      ? [modelConfig.deepseekApiKey ? 'DeepSeek (V3.2 + R1)' : 'Claude/GPT']
       : [modelConfig.superModel, modelConfig.cascadeModel],
   }, `Model router initialized — ${inferenceMode} mode`);
 
