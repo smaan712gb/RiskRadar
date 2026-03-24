@@ -1,0 +1,37 @@
+# RiskRadar Agent Service
+# Designed to run on GPU-equipped hosts with NemoClaw
+FROM node:20-bookworm AS base
+RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
+WORKDIR /app
+
+FROM base AS deps
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+COPY packages/shared/package.json ./packages/shared/
+COPY packages/database/package.json ./packages/database/
+COPY packages/logger/package.json ./packages/logger/
+COPY packages/queue/package.json ./packages/queue/
+COPY packages/tsconfig/package.json ./packages/tsconfig/
+COPY apps/agents/package.json ./apps/agents/
+RUN pnpm install --frozen-lockfile --prod=false
+
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/packages/*/node_modules ./packages/
+COPY . .
+RUN pnpm --filter @riskradar/database exec prisma generate
+RUN pnpm --filter @riskradar/agents build
+
+FROM node:20-bookworm-slim AS runner
+RUN addgroup --system riskradar && adduser --system --ingroup riskradar agent
+WORKDIR /app
+
+COPY --from=builder /app/apps/agents/dist ./dist
+COPY --from=builder /app/apps/agents/src/skills ./skills
+COPY --from=builder /app/apps/agents/src/policies ./policies
+COPY --from=builder /app/apps/agents/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/packages ./packages
+
+USER agent
+ENV NODE_ENV=production
+CMD ["node", "dist/index.js"]

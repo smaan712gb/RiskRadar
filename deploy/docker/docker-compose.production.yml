@@ -1,0 +1,176 @@
+# RiskRadar — Full Self-Hosted Production Stack
+# For on-premises or client's own cloud deployment
+#
+# Usage:
+#   docker compose -f docker-compose.production.yml up -d
+#
+# Prerequisites:
+#   - Docker with NVIDIA Container Toolkit (for GPU agents)
+#   - Minimum 16GB RAM, 4 CPU cores
+#   - GPU: NVIDIA RTX 4090/5090 or A100 (for local AI inference)
+#   - Without GPU: Set INFERENCE_MODE=cloud to use API-based models
+
+services:
+  # ─── Database ─────────────────────────────────────────────
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    container_name: riskradar-db
+    restart: always
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER:-riskradar}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      POSTGRES_DB: ${DB_NAME:-riskradar}
+    volumes:
+      - riskradar_pgdata:/var/lib/postgresql/data
+      - ./postgres-init.sql:/docker-entrypoint-initdb.d/01-init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-riskradar}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+
+  # ─── Cache & Message Broker ───────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: riskradar-redis
+    restart: always
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD:?Set REDIS_PASSWORD in .env}
+      --maxmemory 1gb
+      --maxmemory-policy allkeys-lru
+      --appendonly yes
+    volumes:
+      - riskradar_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── API Service ──────────────────────────────────────────
+  api:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.api
+    container_name: riskradar-api
+    restart: always
+    ports:
+      - "${API_PORT:-3001}:3001"
+    environment:
+      NODE_ENV: production
+      API_HOST: "0.0.0.0"
+      API_PORT: "3001"
+      DATABASE_URL: "postgresql://${DB_USER:-riskradar}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-riskradar}?schema=public"
+      REDIS_URL: "redis://:${REDIS_PASSWORD}@redis:6379"
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?Set ENCRYPTION_KEY in .env}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "2"
+
+  # ─── Web Dashboard ───────────────────────────────────────
+  web:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.web
+    container_name: riskradar-web
+    restart: always
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: "http://api:3001/api/v1"
+    depends_on:
+      - api
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1"
+
+  # ─── Agent Service (with optional GPU) ───────────────────
+  agents:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.agents
+    container_name: riskradar-agents
+    restart: always
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "postgresql://${DB_USER:-riskradar}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-riskradar}?schema=public"
+      REDIS_URL: "redis://:${REDIS_PASSWORD}@redis:6379"
+      NEMOCLAW_ENDPOINT: ${NEMOCLAW_ENDPOINT:-http://inference:8080}
+      NEMOTRON_SUPER_MODEL: ${NEMOTRON_SUPER_MODEL:-nemotron-3-super-120b-a12b}
+      NEMOTRON_CASCADE_MODEL: ${NEMOTRON_CASCADE_MODEL:-nemotron-cascade-2-30b-a3b}
+      MODEL_TIMEOUT_MS: ${MODEL_TIMEOUT_MS:-30000}
+      INFERENCE_MODE: ${INFERENCE_MODE:-local}
+      # Cloud fallback (if INFERENCE_MODE=cloud or hybrid)
+      PRIVACY_ROUTER_ENABLED: ${PRIVACY_ROUTER_ENABLED:-false}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+          cpus: "4"
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # ─── Local AI Inference (NemoClaw/vLLM) ──────────────────
+  # Only needed for INFERENCE_MODE=local
+  # Clients without GPU can set INFERENCE_MODE=cloud and skip this
+  inference:
+    image: vllm/vllm-openai:latest
+    container_name: riskradar-inference
+    restart: always
+    ports:
+      - "${INFERENCE_PORT:-8080}:8000"
+    environment:
+      MODEL_NAME: ${NEMOTRON_CASCADE_MODEL:-nvidia/Nemotron-Cascade-2-30B-A3B}
+      MAX_MODEL_LEN: 32768
+      GPU_MEMORY_UTILIZATION: "0.90"
+      DTYPE: "auto"
+    volumes:
+      - riskradar_models:/root/.cache/huggingface
+    profiles:
+      - gpu  # Only starts with: docker compose --profile gpu up
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  riskradar_pgdata:
+    driver: local
+  riskradar_redis:
+    driver: local
+  riskradar_models:
+    driver: local

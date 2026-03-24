@@ -12,17 +12,27 @@ const logger = createLogger('agent-service');
 async function start(): Promise<void> {
   logger.info('Starting RiskRadar Agent Service');
 
-  // Initialize model router
+  // Initialize model router with inference mode
+  const inferenceMode = (process.env['INFERENCE_MODE'] ?? 'local') as 'local' | 'cloud' | 'hybrid';
+
   const modelConfig: ModelConfig = {
     endpoint: process.env['NEMOCLAW_ENDPOINT'] ?? 'http://localhost:8080',
     superModel: process.env['NEMOTRON_SUPER_MODEL'] ?? 'nemotron-3-super-120b-a12b',
     cascadeModel: process.env['NEMOTRON_CASCADE_MODEL'] ?? 'nemotron-cascade-2-30b-a3b',
     timeoutMs: parseInt(process.env['MODEL_TIMEOUT_MS'] ?? '30000', 10),
     privacyRouterEnabled: process.env['PRIVACY_ROUTER_ENABLED'] === 'true',
+    inferenceMode,
+    anthropicApiKey: process.env['ANTHROPIC_API_KEY'],
+    openaiApiKey: process.env['OPENAI_API_KEY'],
   };
 
   const modelRouter = new ModelRouter(modelConfig);
-  logger.info({ models: [modelConfig.superModel, modelConfig.cascadeModel] }, 'Model router initialized');
+  logger.info({
+    inferenceMode,
+    models: inferenceMode === 'cloud'
+      ? ['cloud API (Claude/GPT)']
+      : [modelConfig.superModel, modelConfig.cascadeModel],
+  }, `Model router initialized — ${inferenceMode} mode`);
 
   // Initialize message bus
   const messageBus = new AgentBus();

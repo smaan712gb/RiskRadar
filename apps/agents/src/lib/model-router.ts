@@ -22,12 +22,18 @@ export interface ModelInferenceResponse {
   cached: boolean;
 }
 
+export type InferenceMode = 'local' | 'cloud' | 'hybrid';
+
 export interface ModelConfig {
   endpoint: string;
   superModel: string;
   cascadeModel: string;
   timeoutMs: number;
   privacyRouterEnabled: boolean;
+  inferenceMode: InferenceMode;
+  // Cloud API keys (for cloud/hybrid modes)
+  anthropicApiKey?: string;
+  openaiApiKey?: string;
 }
 
 /**
@@ -84,11 +90,24 @@ export class ModelRouter {
   }
 
   private selectTier(request: ModelInferenceRequest): ReasoningTier {
+    // Cloud mode: everything goes to Tier 3 (cloud API)
+    if (this.config.inferenceMode === 'cloud') {
+      return 'tier3_cloud';
+    }
+
+    // Hybrid mode: routine → cloud, complex → local Cascade-2
+    if (this.config.inferenceMode === 'hybrid') {
+      if (request.requireReasoning) {
+        return 'tier2_cascade'; // Deep reasoning stays local
+      }
+      return 'tier3_cloud'; // Routine analysis via cloud
+    }
+
+    // Local mode: full on-premises inference
     if (request.requireReasoning) {
       return 'tier2_cascade';
     }
 
-    // Heuristic: long prompts with complex context → Tier 2
     const promptComplexity = this.estimateComplexity(request.prompt);
     if (promptComplexity > 0.8) {
       return 'tier2_cascade';
@@ -172,15 +191,90 @@ export class ModelRouter {
     request: ModelInferenceRequest,
     startTime: number,
   ): Promise<ModelInferenceResponse> {
-    if (!this.config.privacyRouterEnabled) {
-      throw new Error('Privacy router is disabled. Cannot route to cloud models.');
+    // Cloud inference via Anthropic or OpenAI API
+    if (this.config.anthropicApiKey) {
+      return this.inferCloudAnthropic(request, startTime);
     }
+    if (this.config.openaiApiKey) {
+      return this.inferCloudOpenAI(request, startTime);
+    }
+    throw new Error('No cloud API keys configured. Set ANTHROPIC_API_KEY or OPENAI_API_KEY.');
+  }
 
-    // PII stripping would happen here via NemoClaw Privacy Router
-    logger.info('Routing to cloud model via Privacy Router (PII-stripped)');
+  private async inferCloudAnthropic(
+    request: ModelInferenceRequest,
+    startTime: number,
+  ): Promise<ModelInferenceResponse> {
+    logger.info('Routing to Anthropic Claude API');
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': this.config.anthropicApiKey!,
+        'anthropic-version': '2023-06-01',
+      },
+      signal: AbortSignal.timeout(this.config.timeoutMs),
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: request.maxTokens ?? 4096,
+        system: request.systemPrompt,
+        messages: [{ role: 'user', content: request.prompt }],
+      }),
+    });
 
-    // TODO: Implement cloud fallback via NemoClaw Privacy Router
-    throw new Error('Cloud fallback not yet implemented');
+    if (!response.ok) throw new Error(`Anthropic API error: ${response.status}`);
+    const data = (await response.json()) as {
+      content: Array<{ text: string }>;
+      usage: { input_tokens: number; output_tokens: number };
+    };
+
+    return {
+      content: data.content[0]?.text ?? '',
+      tier: 'tier3_cloud',
+      modelId: 'claude-sonnet-4-6',
+      tokensUsed: (data.usage?.input_tokens ?? 0) + (data.usage?.output_tokens ?? 0),
+      latencyMs: Date.now() - startTime,
+      cached: false,
+    };
+  }
+
+  private async inferCloudOpenAI(
+    request: ModelInferenceRequest,
+    startTime: number,
+  ): Promise<ModelInferenceResponse> {
+    logger.info('Routing to OpenAI API');
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.config.openaiApiKey}`,
+      },
+      signal: AbortSignal.timeout(this.config.timeoutMs),
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        messages: [
+          { role: 'system', content: request.systemPrompt },
+          { role: 'user', content: request.prompt },
+        ],
+        max_tokens: request.maxTokens ?? 4096,
+        temperature: request.temperature ?? 0.1,
+      }),
+    });
+
+    if (!response.ok) throw new Error(`OpenAI API error: ${response.status}`);
+    const data = (await response.json()) as {
+      choices: Array<{ message: { content: string } }>;
+      usage: { total_tokens: number };
+    };
+
+    return {
+      content: data.choices[0]?.message.content ?? '',
+      tier: 'tier3_cloud',
+      modelId: 'gpt-4o',
+      tokensUsed: data.usage?.total_tokens ?? 0,
+      latencyMs: Date.now() - startTime,
+      cached: false,
+    };
   }
 
   private async inferWithFallback(
