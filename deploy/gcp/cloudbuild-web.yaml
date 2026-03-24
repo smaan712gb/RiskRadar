@@ -1,0 +1,18 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--no-cache'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-web:v1'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-web:latest'
+      - '-f'
+      - 'deploy/docker/Dockerfile.web'
+      - '.'
+images:
+  - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-web:v1'
+  - 'us-central1-docker.pkg.dev/amadds102025/riskradar/riskradar-web:latest'
+timeout: '1200s'
+options:
+  machineType: 'E2_HIGHCPU_8'
