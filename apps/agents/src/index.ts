@@ -129,8 +129,13 @@ async function start(): Promise<void> {
     engines: ['FusionEngine', 'AutoLearningEngine', 'TrajectoryEngine', 'NLPolicyBuilder', 'SARGenerator'],
     skills: 7,
     signalTypes: 40,
-    agentTopology: '5 collectors + 4 analysis + 3 response',
-  }, 'All engines initialized');
+    agentTopology: '5 collectors + 4 analysis + 3 response (12 total)',
+    agents: {
+      collection: ['finance-collector', 'security-collector', 'hr-collector', 'ops-collector', 'comms-collector'],
+      analysis: ['fusion-engine', 'regulatory-watchdog', 'trajectory-agent', 'bias-check'],
+      response: ['alert-router', 'notification-agent', 'sar-generator'],
+    },
+  }, 'All engines and agents initialized');
 
   logger.info('');
   logger.info('╔═══════════════════════════════════════════════╗');

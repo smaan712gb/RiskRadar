@@ -36,7 +36,9 @@ export async function buildApp(): Promise<FastifyInstance> {
   });
 
   await app.register(cors, {
-    origin: config.NODE_ENV === 'production' ? false : true,
+    origin: config.NODE_ENV === 'production'
+      ? (process.env.CORS_ORIGINS?.split(',').map((o) => o.trim()) ?? [])
+      : true,
     credentials: true,
   });
 
@@ -94,8 +96,29 @@ export async function buildApp(): Promise<FastifyInstance> {
   }));
 
   app.get('/api/v1/ready', async () => {
-    // TODO: Check DB and Redis connectivity
-    return { status: 'ready' };
+    const checks: Record<string, string> = {};
+
+    // Check database connectivity
+    try {
+      const { prisma } = await import('@riskradar/database');
+      await prisma.$queryRaw`SELECT 1`;
+      checks.database = 'ok';
+    } catch {
+      checks.database = 'unavailable';
+    }
+
+    // Check Redis connectivity
+    try {
+      const { getRedisConnection } = await import('@riskradar/queue');
+      const redis = getRedisConnection();
+      await redis.ping();
+      checks.redis = 'ok';
+    } catch {
+      checks.redis = 'unavailable';
+    }
+
+    const allHealthy = Object.values(checks).every((v) => v === 'ok');
+    return { status: allHealthy ? 'ready' : 'degraded', checks };
   });
 
   // Route modules

@@ -31,9 +31,10 @@ export async function createAuditLog(entry: AuditEntry): Promise<void> {
     });
   } catch (error) {
     // Audit log failures should not break the request, but must be logged
-    console.error(
-      `[AUDIT] Failed to create audit log: ${entry.action} on ${entry.resource}/${entry.resourceId}`,
-      error,
+    const { logger } = await import('@riskradar/logger');
+    logger.error(
+      { error, action: entry.action, resource: entry.resource, resourceId: entry.resourceId },
+      'Failed to create audit log entry',
     );
   }
 }

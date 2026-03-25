@@ -42,8 +42,10 @@ export class SignalService {
         queue.add('process-signals', { tenantId, signals: [], batchId } as SignalIngestionJob),
         new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000)),
       ]);
-    } catch {
+    } catch (error) {
       // Redis unavailable — signals persisted in DB, queue skipped
+      const { logger } = await import('@riskradar/logger');
+      logger.warn({ error, batchId }, 'Signal queue unavailable — signals persisted in DB, async processing skipped');
     }
 
     return ok({ ingested: created.count, batchId });
