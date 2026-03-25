@@ -1,0 +1,12 @@
+node_modules
+.git
+.github
+.claude
+.husky
+*.md
+!README.md
+.env
+.env.*
+dist
+coverage
+.turbo

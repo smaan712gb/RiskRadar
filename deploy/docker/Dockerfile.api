@@ -2,12 +2,15 @@
 FROM node:20-alpine
 
 RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
-RUN npm install -g tsx
+RUN npm install -g tsx prisma@6.19.2
 WORKDIR /app
 
 COPY . .
-RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @riskradar/database exec prisma generate
+RUN echo "shamefully-hoist=true" > .npmrc && pnpm install
+
+# Generate Prisma client from database package directory
+ENV PRISMA_GENERATE_SKIP_AUTOINSTALL=true
+RUN cd packages/database && prisma generate
 
 RUN addgroup --system riskradar && adduser --system --ingroup riskradar api
 RUN chown -R api:riskradar /app
