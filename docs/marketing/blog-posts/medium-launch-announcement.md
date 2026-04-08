@@ -15,7 +15,7 @@ We spent two years asking a simple question: **What if a team of specialized AI 
 
 Today, we are releasing the answer as open-source software.
 
-**RiskRadar** (branded as RisksRadarAI) is an AI-driven organizational risk intelligence platform. It uses 12 always-on autonomous agents — built on the [OpenClaw](https://github.com/openclaw) agent framework with [NVIDIA NemoClaw](https://developer.nvidia.com/nemoclaw) security sandboxing — to detect compound risk patterns across HR, finance, security, operations, and communications.
+**RiskRadar** (branded as RisksRadarAI) is an AI-driven organizational risk intelligence platform. It uses 17 always-on autonomous agents — built on the [OpenClaw](https://github.com/openclaw) agent framework with [NVIDIA NemoClaw](https://developer.nvidia.com/nemoclaw) security sandboxing — to detect compound risk patterns across 12 domains including HR, finance, security, operations, communications, crypto fraud, BEC, ransomware, AI threats, and vendor risk.
 
 The core is Apache 2.0. Free to self-host. Your data never has to leave your infrastructure.
 
@@ -43,7 +43,7 @@ RiskRadar does not monitor finance OR security OR HR. It monitors the intersecti
 
 ### Agentic Architecture on OpenClaw
 
-This is not a monolithic application with AI bolted on. RiskRadar is a **multi-agent system** where 12 specialized AI agents run autonomously on the OpenClaw runtime. Each agent has its own lifecycle, its own domain expertise (encoded as OpenClaw SKILL.md files), and its own communication channels via Redis Pub/Sub.
+This is not a monolithic application with AI bolted on. RiskRadar is a **multi-agent system** where 17 specialized AI agents run autonomously on the OpenClaw runtime — including 5 dedicated FBI IC3 2025 threat modules (BEC defense, crypto fraud radar, AI threat intel, ransomware exposure engine, supply chain risk monitor). Each agent has its own lifecycle, its own domain expertise (encoded as OpenClaw SKILL.md files), and its own communication channels via Redis Pub/Sub.
 
 OpenClaw manages the full agent lifecycle — initialization, heartbeat scheduling, signal routing, inter-agent messaging, and graceful shutdown. NemoClaw wraps each agent in a Landlock + Seccomp security sandbox, enforcing least-privilege access at the OS kernel level.
 
@@ -118,7 +118,7 @@ The open-source core includes the full agent system, the API, the dashboard, all
 
 - **Runtime:** Node.js 20+, TypeScript (strict mode)
 - **API:** Fastify 5 (8 route modules, RBAC, audit trails)
-- **Agents:** OpenClaw agent service (12 agents, 7 expert skills, 5 AI engines)
+- **Agents:** OpenClaw agent service (17 agents incl. 5 IC3 threat modules, 7 expert skills, 5 AI engines)
 - **Frontend:** Next.js 15 (11 dashboard pages)
 - **Database:** PostgreSQL 16 + TimescaleDB (16 Prisma models, multi-tenant)
 - **Queue:** BullMQ (10 queue types) on Redis 7

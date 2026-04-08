@@ -10,7 +10,7 @@ series: "RiskRadar Getting Started"
 
 # Deploy Your Own AI Risk Monitoring Platform in 15 Minutes (Docker Compose)
 
-RiskRadar is an open-source AI risk intelligence platform that uses 12 autonomous agents (built on OpenClaw) to detect compound risk patterns across HR, finance, security, operations, and communications. It is Apache 2.0 licensed and designed to run entirely on your own infrastructure.
+RiskRadar is an open-source AI risk intelligence platform that uses 17 autonomous agents (built on OpenClaw) to detect compound risk patterns across 12 domains including HR, finance, security, operations, communications, crypto fraud, BEC, ransomware, AI threats, and vendor risk. It is Apache 2.0 licensed and designed to run entirely on your own infrastructure.
 
 This guide walks you through deploying the full production stack — database, cache, API, web dashboard, and agent service — using a single Docker Compose file. No cloud account needed. No data leaves your network.
 
@@ -126,7 +126,7 @@ services:
     # 1GB memory, 1 CPU limit
     # Depends on: api
 
-  agents:       # OpenClaw agent service (12 agents, 7 skills, 5 engines)
+  agents:       # OpenClaw agent service (17 agents incl. 5 IC3 modules, 7 skills, 5 engines)
     # 8GB memory, 4 CPU limit, GPU reservation
     # Depends on: postgres (healthy), redis (healthy)
 

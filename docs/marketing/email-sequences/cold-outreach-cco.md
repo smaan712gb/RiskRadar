@@ -86,7 +86,7 @@ We're running a 30-day pilot program for community banks. No cost, no commitment
 
 The pilot includes:
 - Full platform deployment (self-hosted or managed)
-- 12 AI agents monitoring across all domains
+- 17 AI agents monitoring across 12 domains (incl. BEC defense, crypto fraud radar, ransomware exposure, AI threat intel, supply chain risk)
 - SAR auto-generation
 - Regulatory watchdog
 - Evidence briefs for everything flagged

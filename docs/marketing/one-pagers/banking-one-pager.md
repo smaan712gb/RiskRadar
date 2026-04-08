@@ -52,7 +52,7 @@ RisksRadarAI fuses signals across your core banking, SIEM, HRIS, and communicati
 ### How It Works
 
 1. **Connect** your core banking system (MCP plug-and-play)
-2. **12 AI agents** start monitoring immediately — no baselining period
+2. **17 AI agents** start monitoring immediately — no baselining period
 3. **First alerts** within days, not months
 4. **BSA Officer** reviews AI evidence briefs and approves actions
 5. **System improves** with every human review (auto-learning)

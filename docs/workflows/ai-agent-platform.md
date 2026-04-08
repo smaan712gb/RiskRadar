@@ -1,7 +1,7 @@
 # AI Agent Platform — Workflow Diagrams
 
 ## Product Overview
-12 specialized OpenClaw agents running 24/7 with sandboxed execution, persistent memory, and MCP integrations.
+17 specialized AI agents running 24/7 with sandboxed execution, persistent memory, and MCP integrations. Includes 5 FBI IC3 2025 threat modules (BEC defense, crypto fraud, AI threat intel, ransomware exposure, supply chain risk).
 
 ---
 

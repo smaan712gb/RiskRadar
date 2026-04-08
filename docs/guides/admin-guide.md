@@ -12,7 +12,7 @@ As Admin, you manage the platform: users, integrations, agents, deployment, and 
 risksradarai.com
 ├── Dashboard (Next.js)     → All pages: alerts, cases, risk scores, etc.
 ├── API (/api/v1/*)         → Proxied to Fastify backend
-├── AI Agents (12 agents)   → Background processing
+├── AI Agents (17 agents)   → Background processing
 ├── Database (PostgreSQL)   → Alerts, cases, signals, audit logs
 └── Redis                   → Job queues, agent messaging
 ```
@@ -57,7 +57,7 @@ risksradarai.com
 
 ## Agent Management
 
-**Agents** page shows all 12 AI agents:
+**Agents** page shows all 17 AI agents:
 
 ### Collection Team (5 agents)
 - **Finance Collector** — Core banking, ERP, payroll

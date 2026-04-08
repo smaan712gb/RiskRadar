@@ -1,12 +1,7 @@
-import Link from 'next/link';
+'use client';
 
-const mockCases = [
-  { id: 'CSE-001', title: 'Insider Transaction Fraud Investigation', status: 'investigating', priority: 'critical', subjectId: 'EMP-4821', assignee: 'Jane Analyst', alerts: 3, comments: 7, slaStatus: 'on_track', created: '2h ago' },
-  { id: 'CSE-002', title: 'Data Exfiltration — Engineering Lead', status: 'pending_legal', priority: 'high', subjectId: 'EMP-9012', assignee: 'Mike CISO', alerts: 2, comments: 12, slaStatus: 'at_risk', created: '1d ago' },
-  { id: 'CSE-003', title: 'Expense Fraud Pattern — Sales Team', status: 'open', priority: 'medium', subjectId: 'DEPT-Sales', assignee: 'Unassigned', alerts: 5, comments: 2, slaStatus: 'on_track', created: '3d ago' },
-  { id: 'CSE-004', title: 'AML Override Clustering — Branch 12', status: 'action_required', priority: 'high', subjectId: 'BRANCH-12', assignee: 'Jane Analyst', alerts: 4, comments: 9, slaStatus: 'breached', created: '5d ago' },
-  { id: 'CSE-005', title: 'Behavioral Risk — Attrition Prediction', status: 'closed_no_action', priority: 'low', subjectId: 'EMP-3291', assignee: 'HR Manager', alerts: 1, comments: 3, slaStatus: 'met', created: '2w ago' },
-];
+import Link from 'next/link';
+import { useCases } from '@/lib/use-data';
 
 const statusColors: Record<string, string> = {
   open: 'bg-blue-100 text-blue-700',
@@ -34,10 +29,19 @@ const slaColors: Record<string, string> = {
 };
 
 export default function CasesPage() {
+  const { data: cases, isDemo } = useCases();
+
+  const openCount = cases.filter((c) => !c.status.startsWith('closed')).length;
+  const overdueCount = cases.filter((c) => c.slaStatus === 'breached').length;
+  const closedThisWeek = cases.filter((c) => c.status.startsWith('closed')).length;
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Cases</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Cases</h1>
+          {isDemo && <span className="text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full ml-2">Demo Data</span>}
+        </div>
         <div className="flex gap-2">
           <select className="rounded-lg border border-gray-300 px-3 py-2 text-sm">
             <option>All Statuses</option>
@@ -53,15 +57,13 @@ export default function CasesPage() {
         </div>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-4 gap-4 mb-6">
-        <StatCard label="Open Cases" value="8" />
-        <StatCard label="Overdue (SLA)" value="2" alert />
-        <StatCard label="Avg Resolution" value="3.2d" />
-        <StatCard label="Closed This Week" value="5" />
+        <StatCard label="Open Cases" value={String(openCount)} />
+        <StatCard label="Overdue (SLA)" value={String(overdueCount)} alert={overdueCount > 0} />
+        <StatCard label="Avg Resolution" value="4.1d" />
+        <StatCard label="Closed This Week" value={String(closedThisWeek)} />
       </div>
 
-      {/* Case List */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
@@ -77,7 +79,7 @@ export default function CasesPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {mockCases.map((c) => (
+            {cases.map((c) => (
               <tr key={c.id} className="hover:bg-gray-50 cursor-pointer">
                 <td className="px-6 py-4">
                   <Link href={`/cases/${c.id}`} className="text-sm font-medium text-blue-600 hover:text-blue-800">

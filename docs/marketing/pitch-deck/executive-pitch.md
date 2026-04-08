@@ -62,7 +62,7 @@ Not a risk score. A complete, auditable, regulator-ready evidence brief.
 
 **Day 1:** Deploy (one command — Docker or managed cloud)
 **Day 1:** Connect integrations (MCP plug-and-play: SAP, Splunk, Workday, Azure AD, Slack)
-**Day 2:** 12 AI agents start analyzing signals immediately
+**Day 2:** 17 AI agents start analyzing signals immediately
 **Day 3:** First compound risk patterns detected
 **Week 2:** Evidence briefs generated for confirmed risks
 **Week 3:** Auto-learning begins improving detection

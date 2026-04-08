@@ -1,22 +1,24 @@
-export default function RiskScoresPage() {
-  const mockSubjects = [
-    { id: 'EMP-4821', type: 'employee', score: 91, trajectory: 'accelerating', domains: { finance: 88, security: 79, hr: 45 }, change: '+23', dept: 'Finance' },
-    { id: 'EMP-9012', type: 'employee', score: 78, trajectory: 'accelerating', domains: { security: 85, communications: 62 }, change: '+15', dept: 'Engineering' },
-    { id: 'EMP-1293', type: 'employee', score: 72, trajectory: 'stable', domains: { finance: 72, hr: 38 }, change: '+2', dept: 'Finance' },
-    { id: 'EMP-3847', type: 'employee', score: 56, trajectory: 'accelerating', domains: { hr: 68, communications: 52, operations: 41 }, change: '+18', dept: 'Sales' },
-    { id: 'BRANCH-12', type: 'department', score: 54, trajectory: 'stable', domains: { finance: 54, compliance: 48 }, change: '-3', dept: 'Branch Ops' },
-    { id: 'EMP-2156', type: 'employee', score: 38, trajectory: 'declining', domains: { finance: 38 }, change: '-12', dept: 'Finance' },
-    { id: 'EMP-7744', type: 'employee', score: 32, trajectory: 'stable', domains: { operations: 32, hr: 28 }, change: '+1', dept: 'IT' },
-    { id: 'EMP-5500', type: 'employee', score: 18, trajectory: 'declining', domains: { communications: 18 }, change: '-8', dept: 'Marketing' },
-  ];
+'use client';
 
-  const distribution = { critical: 2, high: 2, medium: 2, low: 2 };
+import { useRiskScores } from '@/lib/use-data';
+
+export default function RiskScoresPage() {
+  const { data: subjects, isDemo } = useRiskScores();
+
+  const distribution = {
+    critical: subjects.filter((s) => s.score >= 75).length,
+    high: subjects.filter((s) => s.score >= 50 && s.score < 75).length,
+    medium: subjects.filter((s) => s.score >= 25 && s.score < 50).length,
+    low: subjects.filter((s) => s.score < 25).length,
+  };
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Risk Scores</h1>
+      <div className="flex items-center gap-3 mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Risk Scores</h1>
+        {isDemo && <span className="text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Demo Data</span>}
+      </div>
 
-      {/* Distribution */}
       <div className="grid grid-cols-4 gap-4 mb-6">
         <DistCard label="Critical (75+)" count={distribution.critical} color="red" />
         <DistCard label="High (50-74)" count={distribution.high} color="orange" />
@@ -24,7 +26,6 @@ export default function RiskScoresPage() {
         <DistCard label="Low (0-24)" count={distribution.low} color="green" />
       </div>
 
-      {/* Risk Table */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
@@ -38,7 +39,7 @@ export default function RiskScoresPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {mockSubjects.map((s) => (
+            {subjects.map((s) => (
               <tr key={s.id} className="hover:bg-gray-50 cursor-pointer">
                 <td className="px-6 py-4">
                   <div className="text-sm font-mono font-medium text-blue-600">{s.id}</div>
@@ -73,9 +74,9 @@ export default function RiskScoresPage() {
                   <div className="flex gap-1 flex-wrap">
                     {Object.entries(s.domains).map(([domain, score]) => (
                       <span key={domain} className={`text-xs px-1.5 py-0.5 rounded ${
-                        score >= 70 ? 'bg-red-100 text-red-700' : score >= 40 ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-600'
+                        (score as number) >= 70 ? 'bg-red-100 text-red-700' : (score as number) >= 40 ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-600'
                       }`}>
-                        {domain}: {score}
+                        {domain}: {score as number}
                       </span>
                     ))}
                   </div>

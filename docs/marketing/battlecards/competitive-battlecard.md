@@ -72,9 +72,9 @@
 | Avg insider threat cost | $6.9M | IBM/Ponemon 2025 |
 | SAR filing time saved | 4-8 hours per filing | Industry average |
 | Time to first alert | 2-3 days | vs 3-12 months for competitors |
-| Signal types monitored | 40 across 7 domains | vs single-domain competitors |
-| Regulatory rules | 25 across 7 frameworks | Seeded and validated |
-| AI agents | 12 specialized, always-on | OpenClaw 2026.3.23 |
+| Signal types monitored | 45+ across 12 domains | vs single-domain competitors |
+| Regulatory rules | 29 across 9 frameworks (incl. FBI IC3, FinCEN crypto, NIST CSF) | Seeded and validated |
+| AI agents | 17 specialized, always-on (incl. 5 IC3 threat modules) | OpenClaw 2026.3.23 |
 | Expert skills | 7 (CFE, CAMS, CERT/CC, PhD) | OpenClaw SKILL.md format |
 | Open source | Apache 2.0 | github.com/smaan712gb/RiskRadar |
 

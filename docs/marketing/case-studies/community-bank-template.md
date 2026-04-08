@@ -38,7 +38,7 @@
 | Week | Milestone |
 |---|---|
 | Week 1 | Deployed on-premises (Docker). Connected core banking + Splunk. |
-| Week 1 | 12 AI agents started monitoring — no baselining period needed. |
+| Week 1 | 17 AI agents started monitoring — no baselining period needed. |
 | Week 2 | First compound risk pattern detected (override + after-hours access). |
 | Week 3 | Connected Workday + M365. Cross-domain correlation active. |
 | Week 4 | Auto-learning began adjusting thresholds from analyst feedback. |
@@ -80,8 +80,8 @@
 |---|---|
 | Deployment | Self-hosted (Docker) on-premises |
 | Inference | DeepSeek V3.2 (cloud) — planned migration to NemoClaw (local) |
-| Agents | 12 OpenClaw agents, 7 expert skills |
-| Signals | [X] per day across 5 domains |
+| Agents | 17 AI agents (incl. 5 IC3 threat modules), 7 expert skills |
+| Signals | [X] per day across 12 domains |
 | Regulatory rules | 12 (BSA/AML: 5, SOX: 4, GLBA: 3) |
 | Integrations | SAP, Splunk, Workday, Microsoft 365 |
 | Users | [X] (CCO, BSA Officer, 3 analysts, 2 managers, 1 auditor) |

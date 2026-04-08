@@ -27,3 +27,34 @@
     @apply bg-white text-gray-900 antialiased;
   }
 }
+
+/* Print styles for professional report export */
+@media print {
+  body {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .print\:hidden,
+  aside,
+  nav {
+    display: none !important;
+  }
+
+  main {
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+
+  .badge {
+    border: 1px solid currentColor;
+  }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+}

@@ -2,6 +2,18 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useAuthStore } from '@/lib/store';
+import { DEMO_USERS, TFCU_TENANT } from '@/lib/demo-data';
+
+const DEMO_CREDENTIALS = [
+  { label: 'VP Risk & Compliance', email: 'admin@tfcu.org', role: 'admin', name: 'Maria Gonzalez' },
+  { label: 'Chief Compliance Officer', email: 'compliance@tfcu.org', role: 'compliance_officer', name: 'David Chen' },
+  { label: 'CISO', email: 'ciso@tfcu.org', role: 'ciso', name: 'Raj Patel' },
+  { label: 'Senior Risk Analyst', email: 'sarah.kim@tfcu.org', role: 'analyst', name: 'Sarah Kim' },
+  { label: 'BSA/AML Analyst', email: 'james.wright@tfcu.org', role: 'analyst', name: 'James Wright' },
+  { label: 'Branch Ops Manager', email: 'linda.thompson@tfcu.org', role: 'manager', name: 'Linda Thompson' },
+  { label: 'Internal Auditor', email: 'auditor@tfcu.org', role: 'auditor', name: 'Robert Martinez' },
+];
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -9,6 +21,7 @@ export default function LoginPage() {
   const [tenantSlug, setTenantSlug] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { login } = useAuthStore();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -29,15 +42,27 @@ export default function LoginPage() {
         return;
       }
 
-      // Store token and redirect
-      localStorage.setItem('riskradar_token', data.data.accessToken);
-      localStorage.setItem('riskradar_user', JSON.stringify(data.data.user));
+      login(data.data.accessToken, data.data.user);
       window.location.href = '/overview';
     } catch {
-      setError('Network error. Please check your connection.');
+      setError('API not available. Use demo login below to explore the platform.');
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleDemoLogin(cred: typeof DEMO_CREDENTIALS[0]) {
+    const user = DEMO_USERS.find((u) => u.email === cred.email)!;
+    login('demo-token-' + Date.now(), {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      tenantId: TFCU_TENANT.id,
+      tenantName: TFCU_TENANT.name,
+      tenantSlug: TFCU_TENANT.slug,
+    });
+    window.location.href = '/overview';
   }
 
   return (
@@ -58,7 +83,7 @@ export default function LoginPage() {
             type="text"
             value={tenantSlug}
             onChange={(e) => setTenantSlug(e.target.value)}
-            placeholder="your-organization"
+            placeholder="tfcu"
             required
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
@@ -71,7 +96,7 @@ export default function LoginPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@company.com"
+            placeholder="you@tfcu.org"
             required
             autoComplete="email"
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -105,7 +130,35 @@ export default function LoginPage() {
         </button>
       </form>
 
-      <div className="mt-8 text-center">
+      {/* Demo Quick Login */}
+      <div className="mt-8 pt-6 border-t border-gray-200">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="h-px flex-1 bg-gray-200" />
+          <span className="text-xs text-gray-400 font-medium uppercase">Demo Login — {TFCU_TENANT.name}</span>
+          <div className="h-px flex-1 bg-gray-200" />
+        </div>
+        <div className="grid grid-cols-1 gap-2">
+          {DEMO_CREDENTIALS.map((cred) => (
+            <button
+              key={cred.email}
+              onClick={() => handleDemoLogin(cred)}
+              className="flex items-center justify-between px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm hover:bg-blue-50 hover:border-blue-200 transition-colors text-left"
+            >
+              <div>
+                <span className="font-medium text-gray-900">{cred.name}</span>
+                <span className="text-gray-400 mx-2">—</span>
+                <span className="text-gray-500">{cred.label}</span>
+              </div>
+              <span className="text-xs px-2 py-0.5 bg-gray-200 text-gray-600 rounded">{cred.role}</span>
+            </button>
+          ))}
+        </div>
+        <p className="text-xs text-gray-400 text-center mt-3">
+          Click any role above to explore the platform as a {TFCU_TENANT.name} employee
+        </p>
+      </div>
+
+      <div className="mt-6 text-center">
         <p className="text-sm text-gray-500">
           Don&apos;t have an account?{' '}
           <Link href="/signup" className="text-blue-600 font-medium hover:text-blue-800">
@@ -114,7 +167,7 @@ export default function LoginPage() {
         </p>
       </div>
 
-      <div className="mt-6 pt-6 border-t border-gray-200">
+      <div className="mt-4 pt-4 border-t border-gray-200">
         <p className="text-xs text-gray-400 text-center">
           Self-hosted? <a href="https://github.com/smaan712gb/RiskRadar" className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">Deploy on your own infrastructure</a>
         </p>

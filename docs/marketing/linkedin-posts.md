@@ -227,7 +227,7 @@ risksradarai.com
 We're building the open-source alternative to $500K enterprise compliance tools.
 
 RisksRadarAI is:
-- 12 AI agents monitoring across HR, Finance, Security, Ops, and Communications
+- 17 AI agents monitoring across 12 domains (incl. crypto fraud, BEC, ransomware, AI threat, vendor risk)
 - Built on OpenClaw (332K+ GitHub stars) + NemoClaw (NVIDIA)
 - 7 expert-level AI skills (CFE, CAMS, CERT/CC, MITRE ATT&CK)
 - Powered by open-source models (DeepSeek V3.2)

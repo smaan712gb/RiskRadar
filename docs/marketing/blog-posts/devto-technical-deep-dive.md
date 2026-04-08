@@ -1,17 +1,17 @@
 ---
-title: "Building a 12-Agent AI Risk Detection System with OpenClaw and NemoClaw"
-description: "A deep technical dive into how RiskRadar uses the OpenClaw agent framework to coordinate 12 autonomous AI agents that detect compound risk patterns across enterprise domains."
+title: "Building a 17-Agent AI Risk Detection System with OpenClaw and NemoClaw"
+description: "A deep technical dive into how RiskRadar uses the OpenClaw agent framework to coordinate 17 autonomous AI agents — including 5 FBI IC3 2025 threat modules — that detect compound risk patterns across 12 enterprise domains."
 tags: [ai, typescript, agents, architecture, openclaw, redis, agentic-ai]
-canonical_url: https://dev.to/aimadds/12-agent-ai-risk-detection-openclaw
+canonical_url: https://dev.to/aimadds/17-agent-ai-risk-detection-openclaw
 published: true
 cover_image: https://riskradar.ai/blog/technical-deep-dive-cover.png
 ---
 
-# Building a 12-Agent AI Risk Detection System with OpenClaw and NemoClaw
+# Building a 17-Agent AI Risk Detection System with OpenClaw and NemoClaw
 
 Most "AI-powered" enterprise tools use AI the same way: a monolithic backend calls an LLM API when it needs a completion, parses the response, and saves it to a database. The AI is a feature, not the architecture.
 
-We took a fundamentally different approach. RiskRadar is a **multi-agent system** where 12 specialized AI agents run autonomously, each with its own lifecycle, domain expertise, communication channels, and reasoning capabilities. The agents coordinate through message passing, not function calls. They run continuously, not on-demand.
+We took a fundamentally different approach. RiskRadar is a **multi-agent system** where 17 specialized AI agents run autonomously, each with its own lifecycle, domain expertise, communication channels, and reasoning capabilities. Five of these agents are dedicated IC3 2025 threat modules covering BEC defense, crypto fraud, AI threat intelligence, ransomware exposure, and supply chain risk. The agents coordinate through message passing, not function calls. They run continuously, not on-demand.
 
 This post is a deep technical dive into how we built it: the agent lifecycle, the message bus, the fusion engine, the model router, and why we chose this architecture over traditional microservices.
 
@@ -389,7 +389,7 @@ The key difference is **autonomy**. A microservice processes a request and retur
 
 ## Performance at Scale
 
-With 12 agents running continuously, performance matters. Here is how we keep things fast:
+With 17 agents running continuously, performance matters. Here is how we keep things fast:
 
 - **Redis Pub/Sub** for sub-millisecond agent communication
 - **BullMQ** for guaranteed job processing with backpressure
