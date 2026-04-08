@@ -6,7 +6,7 @@
 
 ## Quick Positioning
 
-**"The only platform that correlates risk signals across HR, Finance, Security, Operations, and Communications — powered by open-source AI that runs on your infrastructure."**
+**"The only platform that correlates risk signals across 12 domains — including crypto fraud, BEC, ransomware, AI threats, and supply chain risk — powered by open-source AI that runs on your infrastructure. Now with FBI IC3 2025-aligned threat modules covering $20B+ in documented losses."**
 
 ---
 
@@ -14,10 +14,13 @@
 
 | Category | Key Players | Our Advantage |
 |---|---|---|
-| **AML / Financial Crime** | Legacy AML platforms, transaction monitoring tools | Auto SAR generation, cross-domain correlation (not just transactions), 10x lower cost |
-| **Insider Threat / UEBA** | Legacy UEBA vendors, behavioral analytics | Cross-domain fusion (5 domains vs their 1), evidence briefs vs opaque scores, days vs months to deploy |
+| **AML / Financial Crime** | Legacy AML platforms, transaction monitoring tools | Auto SAR generation, cross-domain correlation (not just transactions), crypto fraud radar via Chainalysis/TRM Labs, 10x lower cost |
+| **Insider Threat / UEBA** | Legacy UEBA vendors, behavioral analytics | Cross-domain fusion (12 domains vs their 1), evidence briefs vs opaque scores, days vs months to deploy |
+| **BEC / Email Security** | Email security gateways, anti-phishing tools | Writing style deviation detection, vendor impersonation monitoring, payment verification — addresses FBI IC3 $3B+ BEC losses |
+| **Crypto Fraud** | Standalone blockchain analytics | Integrated Chainalysis + TRM Labs with behavioral context — pig butchering detection, wallet risk scoring, sanctions screening |
+| **Ransomware / Threat Intel** | Standalone threat intel platforms | MITRE ATT&CK TTP mapping, attack surface scoring, CVE-to-ransomware-group correlation, vendor risk monitoring |
 | **GRC / Compliance** | Enterprise GRC platforms, risk management tools | Autonomous regulatory pipeline (detect → deploy), not just risk registers, AI-native vs workflow-based |
-| **AI Governance** | AI governance tools, policy management | Runtime monitoring + compliance, not just governance documentation |
+| **AI Governance** | AI governance tools, policy management | Runtime monitoring + compliance, AI-generated phishing detection, not just governance documentation |
 
 ---
 

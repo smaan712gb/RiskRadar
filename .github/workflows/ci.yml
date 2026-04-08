@@ -93,6 +93,11 @@ jobs:
           JWT_SECRET: test-jwt-secret-that-is-at-least-32-chars
           NODE_ENV: test
 
+      - name: Run E2E Tests
+        run: cd e2e && npx vitest run
+        env:
+          NODE_ENV: test
+
   build:
     name: Build
     runs-on: ubuntu-latest

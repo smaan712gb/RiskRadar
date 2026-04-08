@@ -18,13 +18,14 @@ const plans = [
       'Case management',
       '7 expert AI skills',
       'Full audit logging',
-      '33 signal types across 7 domains',
+      '45+ signal types across 12 domains',
       'Docker deployment',
       'Community support (GitHub)',
     ],
     limitations: [
       'Self-managed infrastructure',
       'Manual threshold tuning',
+      'No IC3 threat modules',
       'No regulatory watchdog',
       'No SAR auto-generation',
       'No natural language policies',
@@ -34,22 +35,26 @@ const plans = [
     name: 'Professional',
     price: '$2,500',
     period: '/month',
-    description: 'Managed cloud + enterprise AI features. For growing teams.',
+    description: 'Managed cloud + IC3 threat modules + enterprise AI. For growing teams.',
     cta: 'Start Free Trial',
     ctaHref: '/signup',
     highlight: true,
     features: [
       'Everything in Community, plus:',
       'Managed cloud deployment',
+      'FBI IC3 Threat Intelligence modules:',
+      '  \u2192 BEC Defense Suite',
+      '  \u2192 Crypto Fraud Radar (Chainalysis)',
+      '  \u2192 AI Threat Intel Feed',
+      '  \u2192 Ransomware Exposure Engine',
+      '  \u2192 Supply Chain Risk Monitor',
       'Auto-learning engine',
-      'Adaptive alert thresholds',
-      'Digital twin baselines',
       'Natural language policy builder',
       'Regulatory watchdog (12 sources)',
       'SAR/STR draft generation',
       'Slack/Teams/Email notifications',
       'SSO (Google, Microsoft)',
-      '5 enterprise integrations',
+      '8 enterprise integrations',
       'Email support (24h SLA)',
     ],
     limitations: [],
@@ -58,7 +63,7 @@ const plans = [
     name: 'Enterprise',
     price: 'Custom',
     period: '',
-    description: 'On-prem, hybrid, or dedicated cloud. Full control.',
+    description: 'On-prem, hybrid, or dedicated cloud. Full IC3 coverage.',
     cta: 'Contact Sales',
     ctaHref: 'mailto:enterprise@aigovhub.io',
     highlight: false,
@@ -72,10 +77,10 @@ const plans = [
       'Unlimited integrations',
       'Custom AI skill development',
       'Regulator audit portal',
+      'Chainalysis + TRM Labs (full)',
+      'SecurityScorecard + MITRE ATT\u0026CK',
       'Bias & fairness monitoring',
-      'Risk-adaptive access controls',
       'Dedicated CSM (2h SLA)',
-      'Compliance review assistance',
     ],
     limitations: [],
   },
@@ -172,6 +177,8 @@ export default function PricingPage() {
             <FAQ q="Can my compliance team audit the source code?" a="Absolutely. That's why we're open source. Your security team can verify every line that touches your data. Your regulator can inspect the evidence trail logic." />
             <FAQ q="What AI models do you use?" a="NVIDIA Nemotron-3-Super (120B, 12B active) for fast monitoring, and Nemotron-Cascade-2 (30B, 3B active, Gold Medal IMO) for deep reasoning. All open-weight models. In cloud mode, Claude or GPT. No vendor lock-in." />
             <FAQ q="How long until I see my first alert?" a="Days, not months. Unlike UEBA tools that need weeks of baselining, our reasoning models analyze patterns from day one. Connect your first data source and alerts start flowing." />
+            <FAQ q="What are the IC3 Threat Intelligence modules?" a="Five new detection modules aligned to the FBI IC3 2025 Internet Crime Report: BEC Defense Suite (email analytics, vendor impersonation), Crypto Fraud Radar (Chainalysis/TRM Labs wallet scoring, pig butchering detection), AI Threat Intel Feed (AI-generated phishing detection), Ransomware Exposure Engine (MITRE ATT&CK TTP mapping, attack surface scoring), and Supply Chain Risk Monitor (SecurityScorecard vendor rating). These address the $20B+ in FBI-documented losses." />
+            <FAQ q="Do I need Chainalysis/TRM Labs licenses separately?" a="No. Professional and Enterprise plans include pre-integrated access to blockchain analytics via our API partnerships. For Enterprise clients with existing Chainalysis/TRM Labs licenses, we support direct integration with your existing accounts." />
           </div>
         </div>
       </div>

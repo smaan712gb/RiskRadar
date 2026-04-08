@@ -61,6 +61,19 @@ Customize the inputs below for your prospect's situation. The calculator shows c
 
 ---
 
+### 5. IC3 2025 Threat Module Savings (NEW)
+
+| Scenario | Probability | Value | Expected Savings |
+|---|---|---|---|
+| Prevent 1 BEC wire fraud ($285K avg) | 40% | $285,000 | **$114,000/yr** |
+| Detect crypto pig butchering before full loss | 25% | $188,000 | **$47,000/yr** |
+| Avoid ransomware incident (early detection) | 20% | $1,500,000 | **$300,000/yr** |
+| Supply chain breach early warning | 15% | $500,000 | **$75,000/yr** |
+
+*Sources: FBI IC3 2025 (BEC $3B+, investment fraud $8.6B, crypto $7.2B), IBM Cost of Data Breach 2025*
+
+---
+
 ## Summary
 
 | Category | Annual Savings |
@@ -70,27 +83,41 @@ Customize the inputs below for your prospect's situation. The calculator shows c
 | Incident prevention (expected) | $690,000 |
 | Compliance fine avoidance (expected) | $100,000 |
 | Exam efficiency | $26,400 |
-| **Total Annual Value** | **$1,146,400** |
+| BEC fraud prevention (IC3) | $114,000 |
+| Crypto fraud detection (IC3) | $47,000 |
+| Ransomware avoidance (IC3) | $300,000 |
+| Supply chain early warning (IC3) | $75,000 |
+| **Total Annual Value** | **$1,682,400** |
 | **RisksRadarAI Annual Cost** | **$30,000** |
-| **Net Annual Savings** | **$1,116,400** |
-| **ROI** | **38x** |
+| **Net Annual Savings** | **$1,652,400** |
+| **ROI** | **55x** |
 
 ---
 
 ## Conservative Scenario (Low End)
 
-Only count SAR savings + FP reduction (no incident prevention):
+Only count SAR savings + FP reduction (no incident prevention or IC3):
+
 - Annual savings: $330,000
 - Annual cost: $30,000
 - **ROI: 11x**
 
-## Aggressive Scenario (Full Value)
+## Moderate Scenario (Core + IC3 BEC/Ransomware)
 
-Include incident prevention + fine avoidance + all operational savings:
-- Annual value: $1,146,400
+SAR + FP + BEC prevention + ransomware avoidance:
+
+- Annual value: $744,000
 - Annual cost: $30,000
-- **ROI: 38x**
+- **ROI: 25x**
+
+## Aggressive Scenario (Full Value Including All IC3 Modules)
+
+Include incident prevention + fine avoidance + all IC3 module savings:
+
+- Annual value: $1,682,400
+- Annual cost: $30,000
+- **ROI: 55x**
 
 ---
 
-*Customize this calculator for each prospect. The SAR savings alone typically justify the investment.*
+*Customize this calculator for each prospect. The SAR savings alone typically justify the investment. IC3 modules add significant value for institutions with crypto exposure or BEC risk.*

@@ -24,10 +24,18 @@ RisksRadarAI fuses signals across your core banking, SIEM, HRIS, and communicati
 - 30-day filing deadline tracking with automated reminders
 
 **Cross-Domain Insider Threat Detection**
-- Signals correlated across 5 domains simultaneously
+- Signals correlated across 12 domains simultaneously
 - Evidence briefs with chain-of-thought AI reasoning
 - MITRE ATT&CK kill chain staging
 - Predictive risk trajectories with projected breach dates
+
+**FBI IC3 2025 Threat Modules** *(NEW)*
+
+- **BEC Defense Suite** — Email behavior analytics, writing style deviation detection, vendor impersonation monitoring, payment verification workflows. Addresses $3B+ in annual BEC losses.
+- **Crypto Fraud Radar** — Chainalysis/TRM Labs wallet risk scoring, pig butchering pattern detection, mixer/sanctions screening. Addresses $8.6B investment fraud + $7.2B crypto fraud.
+- **AI Threat Intelligence** — AI-generated phishing detection, deepfake tool tracking, LLM-crafted template fingerprinting. Addresses $893M in AI-enabled scams (new FBI IC3 category).
+- **Ransomware Exposure Engine** — MITRE ATT&CK TTP mapping, CVE-to-ransomware-group correlation, dark web intelligence, attack surface scoring.
+- **Supply Chain Risk Monitor** — SecurityScorecard vendor rating, breach alert monitoring, compliance certification tracking.
 
 **Autonomous Regulatory Compliance**
 - Scans FinCEN, OCC, FDIC, SEC, OFAC every 6 hours

@@ -43,14 +43,18 @@ Not a risk score. A complete, auditable, regulator-ready evidence brief.
 
 ---
 
-## Slide 4: Four Products, One Platform
+## Slide 4: Six Products, One Platform
 
 | Product | What It Does | Replaces |
 |---|---|---|
-| **AML & Financial Crime** | Transaction forensics, override monitoring, auto SAR generation | Legacy AML platforms |
+| **AML & Financial Crime** | Transaction forensics, override monitoring, auto SAR generation, crypto fraud radar | Legacy AML platforms |
 | **Insider Threat Detection** | Cross-domain behavioral analysis, MITRE ATT&CK kill chain staging | Single-domain UEBA tools |
+| **IC3 Threat Intelligence** | BEC defense suite, crypto fraud radar (Chainalysis/TRM Labs), AI threat intel feed, ransomware exposure engine, supply chain risk monitor | Point solution threat intel tools |
 | **Compliance & Investigation** | Evidence briefs, case management, regulatory gap analysis, auto-compliance pipeline | Traditional GRC platforms |
-| **AI Agent Platform** | 12 always-on OpenClaw agents with 7 expert skills, persistent memory, auto-learning | Nothing — no competitor offers this |
+| **AI Agent Platform** | 17 always-on AI agents with 7 expert skills, persistent memory, auto-learning | Nothing — no competitor offers this |
+| **Vendor Risk Management** | SecurityScorecard integration, continuous vendor security posture monitoring, breach alerts | Manual vendor assessments |
+
+> **NEW — FBI IC3 2025 Alignment:** Five dedicated modules map directly to the costliest cybercrime categories identified in the FBI's 2025 Internet Crime Report ($20B+ in total losses). Investment/crypto fraud ($8.6B), BEC ($3B+), AI-enabled scams ($893M), ransomware, and supply chain risk.
 
 ---
 
@@ -93,14 +97,16 @@ What happens when FinCEN issues a new advisory:
 
 | Capability | Legacy Tools | RisksRadarAI |
 |---|---|---|
-| Domain coverage | Single domain | Cross-domain fusion (5 domains) |
+| Domain coverage | Single domain | Cross-domain fusion (12 domains including crypto, BEC, ransomware, AI threat, vendor risk) |
 | AI reasoning | Rule-based or basic ML | DeepSeek V3.2 / Nemotron chain-of-thought |
 | Deployment time | 3-12 months | Days |
 | Data residency | Cloud-only or cloud-forcing | Self-hosted, private cloud, managed, or hybrid |
 | Explainability | Opaque risk scores | Evidence briefs with source citations |
 | Learning | Static thresholds | Auto-learning from human feedback |
 | Regulatory updates | Manual policy changes | Autonomous detect → propose → deploy pipeline |
-| Agent platform | None | 12 OpenClaw agents with persistent memory |
+| Agent platform | None | 17 AI agents (5 collection + 5 IC3 analysis + 4 core analysis + 3 response) |
+| IC3 threat coverage | None | 85% coverage of FBI IC3 2025 top threat categories |
+| Blockchain analytics | None | Chainalysis KYT + TRM Labs integration |
 | Pricing | $67K - $500K+/year | Open-source core free. Enterprise from $2.5K/month |
 
 ---
@@ -131,10 +137,11 @@ What happens when FinCEN issues a new advisory:
 | **Deployment** | Self-hosted | Managed cloud | On-prem / hybrid |
 | **Core platform** | Full | Full | Full |
 | **AML & Financial Crime** | Basic | Full + SAR auto-draft | Full + custom rules |
+| **IC3 Threat Modules** | -- | BEC + Crypto + AI Threat + Ransomware + Vendor Risk | Full + custom modules |
 | **Insider Threat** | Basic | Full + trajectories | Full + digital twins |
 | **Compliance** | Basic | Full + regulatory watchdog | Full + auto-compliance loop |
-| **AI Agents** | 5 collectors | 12 agents + auto-learning | 12 + custom agents |
-| **Integrations** | 3 | 10 | Unlimited |
+| **AI Agents** | 5 collectors | 17 agents + auto-learning | 17 + custom agents |
+| **Integrations** | 3 | 13 (incl. Chainalysis, MITRE) | Unlimited |
 | **Support** | Community (GitHub) | Email (24h SLA) | Dedicated CSM (2h SLA) |
 
 **ROI:** If we prevent just 1 insider incident ($6.9M avg), the platform pays for itself **38-72x over.**
